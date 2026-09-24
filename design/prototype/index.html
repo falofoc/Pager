@@ -2,321 +2,372 @@
 <title>لغة تصميم دورك</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;700;800&family=Readex+Pro:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
 <style>
 :root{
-  --sky:#7EB8DE; --sky-deep:#4F97CC; --sky-soft:#D6EAF6;
-  --sun:#F7D84E; --sun-soft:#FBEBA6;
-  --bubble:#EC6EA8; --bubble-soft:#F9D5E6;
-  --grass:#62B044; --grass-soft:#D3EBC3; --grass-deep:#3F8A2A;
-  --plum:#8E6FE0; --night:#262447;
-  --ember:#EE8436; --ember-soft:#FFE1C8;
-  --cream:#F8F5EC; --sand:#EFE9DB; --sand-2:#E4DCC8;
-  --ink:#18171B; --ink-2:#5E594F; --ink-3:#8E877A; --white:#FFFFFF;
-  --brand:#E0548F;
-  --r-block:40px;
-  --f-display:"Baloo Bhaijaan 2","Readex Pro",system-ui,sans-serif;
-  --f-body:"Readex Pro","Segoe UI",Tahoma,system-ui,sans-serif;
+  --wait:#4E6E8E; --wait-soft:#DCE5EE; --wait-deep:#3B5872;
+  --near:#B98A2C; --near-soft:#F1E6C9;
+  --done:#3E7A5E; --done-soft:#DCEBE2; --done-deep:#2E5F48;
+  --delay:#B5552D; --delay-soft:#F3DDD2;
+  --pause:#2B2F45;
+  --cream:#F4F2ED; --sand:#E9E5DC; --sand-2:#D9D3C6;
+  --ink:#1C1B1A; --ink-2:#5A5750; --ink-3:#8A857B; --white:#FFFFFF;
+  --brand:#1F5F73;
+  --bell:#C99A2E; --bell-deep:#9A7320;
+  --r-block:32px;
+  --f-display:"Almarai","IBM Plex Sans Arabic",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans Arabic","Segoe UI",Tahoma,system-ui,sans-serif;
+  --ease-soft:cubic-bezier(.34,1.4,.64,1);
   color-scheme:light;
 }
 *,*::before,*::after{box-sizing:border-box}
 html,body{background:var(--cream)}
-body{color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.65;direction:rtl;-webkit-font-smoothing:antialiased}
+body{color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.7;direction:rtl;-webkit-font-smoothing:antialiased}
 .ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
 button,input,select{font-family:inherit;font-size:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:8px}
 h1,h2,h3,h4,p{margin:0}
+a{color:inherit}
 .wrap{max-width:1240px;margin-inline:auto;padding-inline:16px;padding-block:16px 48px;display:grid;gap:16px}
 .block{position:relative;overflow:hidden;border-radius:var(--r-block);padding-block:clamp(28px,5vw,64px);padding-inline:clamp(18px,4vw,56px)}
-.section{padding-block:clamp(40px,7vw,88px);position:relative}
-.center{text-align:center;display:grid;justify-items:center;gap:16px}
-.eyebrow{display:inline-block;padding:5px 16px;border-radius:999px;font-weight:600;font-size:14px;line-height:1.6}
-.e-pink{background:var(--bubble);color:#fff}
-.e-green{background:#B9DD8F;color:#24401A}
+.section{padding-block:clamp(40px,7vw,80px);position:relative}
+.center{text-align:center;display:grid;justify-items:center;gap:14px}
+.eyebrow{display:inline-block;padding:4px 14px;border-radius:999px;font-weight:600;font-size:13px;line-height:1.7;letter-spacing:0}
+.e-brand{background:var(--brand);color:#fff}
+.e-done{background:var(--done-soft);color:var(--done-deep)}
 .e-ink{background:var(--ink);color:#fff}
 .e-white{background:#fff;color:var(--ink)}
-.h2{font-family:var(--f-display);font-weight:800;font-size:clamp(34px,5.4vw,62px);line-height:1.08;text-wrap:balance}
-.lede{color:var(--ink-2);max-width:58ch;font-size:clamp(15px,1.6vw,17px);text-wrap:pretty}
+.e-near{background:var(--near-soft);color:#6B4F10}
+.h2{font-family:var(--f-display);font-weight:800;font-size:clamp(30px,4.6vw,52px);line-height:1.18;text-wrap:balance}
+.lede{color:var(--ink-2);max-width:60ch;font-size:clamp(15px,1.5vw,17px);text-wrap:pretty}
+.on-dark .lede{color:rgba(255,255,255,.78)}
+.on-dark{color:#fff}
 
-/* ---------- Mascot ---------- */
+/* ---------- Bell mascot ---------- */
 .mascot{display:block;width:100%;height:auto;overflow:visible}
-.bob{animation:bob 3.4s ease-in-out infinite}
-.bob-2{animation:bob 4.1s ease-in-out -1.2s infinite}
+.sway{animation:sway 4s ease-in-out infinite;transform-origin:50% 22%}
+.sway-2{animation:sway 4.8s ease-in-out -1.4s infinite;transform-origin:50% 22%}
+.ring-anim{animation:ringbell .9s var(--ease-soft) infinite;transform-origin:50% 22%}
 .drift .pupil{animation:look 7s ease-in-out infinite}
-.hop{animation:hop 1.1s var(--ease-soft,cubic-bezier(.34,1.56,.64,1)) infinite}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6%)}}
-@keyframes look{0%,18%{transform:translate(-5px,1px)}30%,55%{transform:translate(5px,-1px)}68%,85%{transform:translate(0,4px)}100%{transform:translate(-5px,1px)}}
-@keyframes hop{0%,100%{transform:translateY(0) scale(1,1)}35%{transform:translateY(-14%) scale(.96,1.05)}60%{transform:translateY(0) scale(1.05,.95)}}
+@keyframes sway{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(2.5deg)}}
+@keyframes ringbell{0%,100%{transform:rotate(-14deg)}50%{transform:rotate(14deg)}}
+@keyframes look{0%,18%{transform:translate(-3px,0)}30%,55%{transform:translate(3px,-1px)}68%,85%{transform:translate(0,2px)}100%{transform:translate(-3px,0)}}
+.waves path{animation:wave 1.4s ease-out infinite;transform-origin:50% 50%}
+.waves path:nth-child(2),.waves path:nth-child(4){animation-delay:.45s}
+@keyframes wave{0%{opacity:0;transform:scale(.8)}30%{opacity:.9}100%{opacity:0;transform:scale(1.25)}}
 
 /* ---------- Phone ---------- */
-.phone{--w:252px;width:var(--w);max-width:100%;aspect-ratio:9/19.3;border:7px solid var(--ink);border-radius:42px;background:var(--cream);overflow:hidden;position:relative;flex:none;font-size:calc(var(--w) / 21);line-height:1.45;box-shadow:0 36px 60px -34px rgba(24,23,27,.55)}
-.phone::before{content:"";position:absolute;top:.7em;left:50%;transform:translateX(-50%);width:5.6em;height:1.45em;background:var(--ink);border-radius:1em;z-index:5}
-.screen{position:absolute;inset:0;color:var(--ink);display:flex;flex-direction:column;align-items:center;text-align:center;gap:.7em;padding:3.1em 1.2em 1.3em;transition:background-color .42s}
+.phone{--w:252px;width:var(--w);max-width:100%;aspect-ratio:9/19.3;border:7px solid var(--ink);border-radius:40px;background:var(--cream);overflow:hidden;position:relative;flex:none;font-size:calc(var(--w) / 21);line-height:1.5;box-shadow:0 30px 50px -30px rgba(28,27,26,.5)}
+.phone::before{content:"";position:absolute;top:.7em;left:50%;transform:translateX(-50%);width:5.4em;height:1.4em;background:var(--ink);border-radius:1em;z-index:5}
+.screen{position:absolute;inset:0;color:var(--ink);display:flex;flex-direction:column;align-items:center;text-align:center;gap:.65em;padding:3.1em 1.15em 1.2em;transition:background-color .42s}
 .bar{align-self:stretch;display:flex;align-items:center;gap:.55em;text-align:start;position:relative;z-index:2}
-.logo{width:2.3em;height:2.3em;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1em;flex:none;box-shadow:0 0 0 .18em rgba(255,255,255,.7)}
-.bar b{display:block;font-size:1em;line-height:1.25;font-weight:600}
-.bar small{display:block;font-size:.8em;opacity:.7;line-height:1.3}
-.m-slot{width:8.6em;position:relative;z-index:1}
-.m-slot.sm{width:6em}
-.lbl{font-size:.82em;color:var(--ink-2);line-height:1}
-.num{font-family:var(--f-display);font-weight:800;font-size:4em;line-height:.85;letter-spacing:0}
-.pill{display:inline-flex;align-items:center;gap:.45em;padding:.3em .9em;border-radius:999px;background:#fff;font-weight:600;font-size:.86em}
-.pill i{width:.55em;height:.55em;border-radius:50%;background:var(--grass);animation:blink 1.6s ease-in-out infinite}
+.logo{width:2.2em;height:2.2em;border-radius:.7em;background:var(--brand);color:#fff;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1em;flex:none}
+.bar b{display:block;font-size:.95em;line-height:1.3;font-weight:700}
+.bar small{display:block;font-size:.78em;opacity:.72;line-height:1.3}
+.m-slot{width:7.2em;position:relative;z-index:1}
+.m-slot.sm{width:5.2em}
+.lbl{font-size:.8em;color:var(--ink-2);line-height:1}
+.num{font-family:var(--f-display);font-weight:800;font-size:3.9em;line-height:1;letter-spacing:0}
+.pill{display:inline-flex;align-items:center;gap:.45em;padding:.28em .9em;border-radius:999px;background:#fff;font-weight:600;font-size:.84em}
+.pill i{width:.55em;height:.55em;border-radius:50%;background:var(--done);animation:blink 1.6s ease-in-out infinite}
 @keyframes blink{50%{opacity:.35}}
-.card{align-self:stretch;background:#fff;border-radius:1.35em;padding:.8em 1em;display:grid;gap:.35em;text-align:start;position:relative;z-index:2}
-.card small{color:var(--ink-2);font-size:.8em;line-height:1.3}
-.card .big{font-family:var(--f-display);font-weight:800;font-size:1.7em;line-height:1}
+.card{align-self:stretch;background:#fff;border-radius:1.1em;padding:.8em 1em;display:grid;gap:.3em;text-align:start;position:relative;z-index:2;color:var(--ink)}
+.card small{color:var(--ink-2);font-size:.78em;line-height:1.35}
+.card .big{font-family:var(--f-display);font-weight:800;font-size:1.6em;line-height:1.1}
 .queue{display:flex;gap:.3em;margin-top:.15em}
-.queue i{flex:1;height:.5em;border-radius:1em;background:var(--sand-2)}
-.queue i.ahead{background:var(--sky-deep)}
-.queue i.me{background:var(--sun);box-shadow:inset 0 0 0 .12em var(--ink)}
-.toggle{align-self:stretch;display:flex;align-items:center;justify-content:space-between;gap:.5em;background:rgba(255,255,255,.55);border-radius:1.1em;padding:.55em .8em;font-size:.85em;font-weight:500;text-align:start}
-.sw{width:2.2em;height:1.25em;border-radius:1em;background:var(--grass);position:relative;flex:none}
+.queue i{flex:1;height:.45em;border-radius:1em;background:var(--sand-2)}
+.queue i.ahead{background:var(--wait)}
+.queue i.me{background:var(--near);box-shadow:inset 0 0 0 .12em var(--ink)}
+.toggle{align-self:stretch;display:flex;align-items:center;justify-content:space-between;gap:.5em;background:rgba(255,255,255,.6);border-radius:1em;padding:.5em .8em;font-size:.84em;font-weight:500;text-align:start;position:relative;z-index:2}
+.sw{width:2.2em;height:1.25em;border-radius:1em;background:var(--done);position:relative;flex:none}
 .sw::after{content:"";position:absolute;top:.15em;left:.15em;width:.95em;height:.95em;border-radius:50%;background:#fff}
-.hint{font-size:.8em;color:var(--ink-2);line-height:1.4}
+.hint{font-size:.78em;color:var(--ink-2);line-height:1.45;position:relative;z-index:2}
 .fill{flex:1}
-.btn{align-self:stretch;border-radius:999px;padding:.78em 1em;font-weight:600;font-size:.95em;border:0;line-height:1.2;position:relative;z-index:2}
+.btn{align-self:stretch;border-radius:999px;padding:.75em 1em;font-weight:700;font-size:.92em;border:0;line-height:1.3;position:relative;z-index:2}
 .btn.ink{background:var(--ink);color:#fff}
 .btn.white{background:#fff;color:var(--ink)}
 .btn.ghost{background:transparent;color:inherit;padding:.3em;font-weight:500;text-decoration:underline;text-underline-offset:.25em}
-.digits{display:flex;gap:.5em;direction:ltr}
-.digits span{width:2.6em;height:3.1em;border-radius:.9em;background:#fff;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.5em;line-height:1;box-shadow:inset 0 -.18em 0 var(--sand-2)}
-.digits span.cur{box-shadow:inset 0 0 0 .12em var(--ink)}
-.h3{font-family:var(--f-display);font-weight:800;font-size:1.65em;line-height:1.1}
-.confirm{grid-template-columns:auto 1fr;align-items:center;column-gap:.7em;border:.14em solid var(--grass)}
-.check{width:1.7em;height:1.7em;border-radius:50%;background:var(--grass);display:grid;place-items:center}
+.btn.row{display:flex;align-items:center;justify-content:center;gap:.5em}
+.btn svg{width:1.1em;height:1.1em}
+.h3{font-family:var(--f-display);font-weight:800;font-size:1.5em;line-height:1.2}
+.check{width:1.6em;height:1.6em;border-radius:50%;background:var(--done);display:grid;place-items:center}
 .check svg{width:1em;height:1em}
+.rlist{align-self:stretch;display:grid;gap:.45em;position:relative;z-index:2}
+.ritem{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:.6em;background:#fff;border-radius:.9em;padding:.55em .8em;text-align:start;border:0}
+.ritem b{font-family:var(--f-display);font-weight:800;font-size:1.35em;line-height:1}
+.ritem small{color:var(--ink-2);font-size:.76em;line-height:1.3}
+.ritem i{font-style:normal;font-size:.72em;color:var(--ink-3)}
+.ritem.mine{box-shadow:inset 0 0 0 .14em var(--ink)}
+.digits{display:flex;gap:.45em;direction:ltr}
+.digits span{width:2.4em;height:2.9em;border-radius:.7em;background:#fff;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.4em;line-height:1;box-shadow:inset 0 -.18em 0 var(--sand-2)}
+.digits span.bad{box-shadow:inset 0 0 0 .12em var(--delay);color:var(--delay)}
 
 .s-claim{background:var(--cream)}
-.s-wait{background:linear-gradient(180deg,var(--sky) 0%,var(--sky) 52%,var(--sky-soft) 52.1%)}
-.s-near{background:var(--sun)}
+.s-wait{background:var(--wait);color:#fff}
+.s-wait .hint{color:rgba(255,255,255,.8)}
+.s-wait .lbl{color:rgba(255,255,255,.75)}
+.s-near{background:var(--near-soft)}
 .s-call{background:var(--brand);color:#fff;overflow:hidden}
-.s-done{background:var(--grass-soft)}
-.s-delay{background:var(--ember-soft)}
-.s-prayer{background:var(--night);color:#fff}
-.s-prayer .bar small,.s-call .bar small{opacity:.85}
+.s-done{background:var(--done-soft)}
+.s-delay{background:var(--delay-soft)}
+.s-prayer{background:var(--pause);color:#fff}
 .s-prayer .hint{color:rgba(255,255,255,.75)}
-.banner{align-self:stretch;background:var(--ember);color:#fff;border-radius:1.1em;padding:.6em .85em;font-size:.85em;font-weight:500;text-align:start;line-height:1.4;position:relative;z-index:2}
-.rings{position:absolute;left:50%;top:31%;width:0;height:0;z-index:0}
-.rings i{position:absolute;left:-7em;top:-7em;width:14em;height:14em;border-radius:50%;border:.5em solid rgba(255,255,255,.35);animation:ring 2.4s ease-out infinite}
+.s-offline{background:var(--sand)}
+.s-game,.s-card,.s-review{background:var(--cream)}
+.banner{align-self:stretch;background:var(--delay);color:#fff;border-radius:.9em;padding:.55em .85em;font-size:.82em;font-weight:500;text-align:start;line-height:1.45;position:relative;z-index:2}
+.banner.gray{background:var(--ink-2)}
+.rings{position:absolute;left:50%;top:30%;width:0;height:0;z-index:0}
+.rings i{position:absolute;left:-7em;top:-7em;width:14em;height:14em;border-radius:50%;border:.45em solid rgba(255,255,255,.3);animation:ring 2.4s ease-out infinite}
 .rings i:nth-child(2){animation-delay:.8s}
 .rings i:nth-child(3){animation-delay:1.6s}
 @keyframes ring{0%{transform:scale(.45);opacity:.9}100%{transform:scale(2.2);opacity:0}}
-.call-word{font-family:var(--f-display);font-weight:800;font-size:2.7em;line-height:1;position:relative;z-index:2}
-.call-num{font-family:var(--f-display);font-weight:800;font-size:5em;line-height:.8;position:relative;z-index:2}
-.where{background:rgba(255,255,255,.22);border-radius:999px;padding:.35em 1em;font-weight:600;font-size:.9em;position:relative;z-index:2}
+.call-word{font-family:var(--f-display);font-weight:800;font-size:2.4em;line-height:1.1;position:relative;z-index:2}
+.call-num{font-family:var(--f-display);font-weight:800;font-size:4.8em;line-height:.95;position:relative;z-index:2}
+.where{background:rgba(255,255,255,.2);border-radius:999px;padding:.32em 1em;font-weight:600;font-size:.88em;position:relative;z-index:2}
 .faces{display:flex;justify-content:space-between;gap:.4em}
-.face{flex:1;background:var(--cream);border:0;border-radius:1em;padding:.35em .2em .2em}
-.face.on{background:var(--bubble-soft);box-shadow:inset 0 0 0 .12em var(--bubble)}
-.moon{position:absolute;top:4.2em;left:1.6em;width:2.2em;height:2.2em;border-radius:50%;box-shadow:-.5em .25em 0 0 #F7E7A1;transform:rotate(-20deg)}
-.stars i{position:absolute;width:.25em;height:.25em;border-radius:50%;background:#fff;opacity:.7}
-.no-mascot .m-slot{display:none}
+.face{flex:1;background:var(--cream);border:0;border-radius:.9em;padding:.4em .3em .25em}
+.face.on{background:var(--done-soft);box-shadow:inset 0 0 0 .12em var(--done)}
+.moon{position:absolute;top:4.2em;left:1.6em;width:2.1em;height:2.1em;border-radius:50%;box-shadow:-.5em .25em 0 0 #E8D9A2;transform:rotate(-20deg)}
+.stars i{position:absolute;width:.22em;height:.22em;border-radius:50%;background:#fff;opacity:.6}
+.lcard{align-self:stretch;background:var(--brand);color:#fff;border-radius:1.2em;padding:.9em 1em;display:grid;gap:.6em;text-align:start;position:relative;z-index:2;overflow:hidden}
+.lcard::after{content:"";position:absolute;right:-3em;top:-3em;width:8em;height:8em;border-radius:50%;background:rgba(255,255,255,.08)}
+.lcard b{font-family:var(--f-display);font-weight:800;font-size:1.05em}
+.lcard small{opacity:.8;font-size:.76em;line-height:1.35}
+.stamps{display:grid;grid-template-columns:repeat(5,1fr);gap:.4em}
+.stamps i{aspect-ratio:1;border-radius:50%;border:.12em solid rgba(255,255,255,.45);display:grid;place-items:center}
+.stamps i.on{background:#fff;border-color:#fff}
+.stamps i.on::after{content:"";width:45%;height:45%;border-radius:50%;background:var(--brand)}
+.stamps i.x2{border-style:dashed;border-color:var(--bell)}
+.stamps i.x2::after{content:"×2";font-size:.62em;font-weight:800;color:var(--bell)}
+.tag{display:inline-flex;align-items:center;gap:.4em;background:var(--near-soft);color:#6B4F10;border-radius:999px;padding:.25em .8em;font-size:.76em;font-weight:600;position:relative;z-index:2}
+.tag i{width:.5em;height:.5em;border-radius:50%;background:var(--near)}
+.gcanvas{align-self:stretch;aspect-ratio:1;border-radius:1.1em;background:#fff;position:relative;z-index:2;touch-action:none;cursor:crosshair;display:block;width:100%;height:auto}
+.gbar{align-self:stretch;display:flex;gap:.4em;position:relative;z-index:2}
+.gbar .btn{flex:1;padding:.55em}
+.ol{align-self:stretch;display:grid;gap:.4em;position:relative;z-index:2}
+.ol .ritem{grid-template-columns:auto 1fr}
+.ol .ritem b{font-family:var(--f-body);font-weight:600;font-size:.86em}
+.ol .ritem .ico{width:1.8em;height:1.8em;border-radius:.5em;background:var(--sand);display:grid;place-items:center}
+.ol .ritem .ico svg{width:1.05em;height:1.05em}
+.kv{display:flex;justify-content:space-between;font-size:13.5px;gap:8px}
 
 /* ---------- Hero ---------- */
-.hero{background:var(--sky);color:#fff;padding-bottom:0;min-height:0;background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0 150px,transparent 150px 300px)}
-.hero::after{content:"";position:absolute;inset-inline:-10%;bottom:-38%;height:62%;border-radius:50%;background:var(--sky-deep);z-index:0}
+.hero{background:var(--wait);color:#fff;padding-bottom:0;background-image:linear-gradient(180deg,rgba(255,255,255,0) 40%,rgba(0,0,0,.12) 100%)}
+.hero-pattern{position:absolute;inset:0;width:100%;height:100%;opacity:.14;pointer-events:none}
 .hero-top{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;position:relative;z-index:3}
 .meta-row{display:flex;gap:clamp(16px,4vw,48px)}
-.meta b{display:block;font-weight:600;font-size:14px}
-.meta span{display:block;font-size:13px;opacity:.8}
+.meta b{display:block;font-weight:700;font-size:14px}
+.meta span{display:block;font-size:13px;opacity:.78}
 .stores{display:flex;gap:8px;flex-wrap:wrap}
-.store{background:#fff;color:var(--ink);border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600;line-height:1.4}
-.hero-stage{position:relative;z-index:2;display:grid;justify-items:center;margin-top:clamp(8px,2vw,20px)}
-.peek{position:absolute;top:clamp(6px,2vw,24px);left:50%;width:clamp(96px,15vw,170px);transform:translateX(-50%);z-index:0}
-.wordmark{position:relative;z-index:1;font-family:var(--f-display);font-weight:800;font-size:clamp(120px,24vw,300px);line-height:1;color:#fff;text-shadow:0 10px 30px rgba(30,80,130,.28);margin-top:clamp(50px,8vw,100px)}
-.hero-row{position:relative;z-index:2;display:flex;align-items:flex-end;justify-content:center;gap:clamp(4px,3vw,40px);margin-top:clamp(-96px,-7vw,-36px);width:100%}
+.store{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:5px 14px;font-size:13px;font-weight:500;line-height:1.5}
+.hero-stage{position:relative;z-index:2;display:grid;justify-items:center;margin-top:clamp(8px,2vw,16px)}
+.wordmark{position:relative;z-index:1;font-family:var(--f-display);font-weight:800;font-size:clamp(96px,20vw,240px);line-height:1.15;color:#fff;margin-top:clamp(20px,4vw,48px)}
+.tag-line{position:relative;z-index:2;font-size:clamp(15px,1.8vw,20px);opacity:.85;margin-top:clamp(6px,1.5vw,14px)}
+.hero-row{position:relative;z-index:2;display:flex;align-items:flex-end;justify-content:center;gap:clamp(6px,3vw,44px);margin-top:clamp(12px,3vw,32px);width:100%}
 .hero-row .phone{--w:clamp(200px,24vw,262px)}
-.side-m{width:clamp(78px,14vw,170px);flex:none}
-.side-m.a{align-self:center}
-.side-m.b{margin-bottom:10%}
-.cloud{position:absolute;z-index:1;width:var(--cw,130px);height:calc(var(--cw,130px) * .46);border-radius:999px;background:radial-gradient(circle at 50% 28%,#fff 55%,#E3EEF6 100%);filter:drop-shadow(0 10px 14px rgba(30,80,130,.18))}
-.cloud::before,.cloud::after{content:"";position:absolute;border-radius:50%;background:radial-gradient(circle at 45% 35%,#fff 58%,#E6F0F7 100%)}
-.cloud::before{width:52%;height:112%;top:-55%;right:16%}
-.cloud::after{width:38%;height:84%;top:-32%;left:14%}
+.side-m{width:clamp(70px,12vw,140px);flex:none;margin-bottom:8%}
+.side-m.a{align-self:center;margin-bottom:0}
 
 /* ---------- Intro ---------- */
-.floaty{position:absolute;width:74px;height:74px;border-radius:50%;display:grid;place-items:center;overflow:hidden;box-shadow:0 0 0 5px #fff,0 14px 24px -12px rgba(0,0,0,.3)}
-.floaty .mascot{width:88%;margin-top:22%}
+.floaty{position:absolute;width:70px;height:70px;border-radius:20px;display:grid;place-items:center;overflow:hidden;box-shadow:0 0 0 4px #fff,0 14px 24px -14px rgba(0,0,0,.3)}
+.floaty .mascot{width:70%}
 
 /* ---------- Journey ---------- */
-.rail{display:flex;gap:20px;overflow-x:auto;padding:8px 4px 20px;scroll-snap-type:x mandatory;justify-content:safe center}
+.rail{display:flex;gap:18px;overflow-x:auto;padding:8px 4px 20px;scroll-snap-type:x mandatory;justify-content:safe center}
 .rail figure{margin:0;display:grid;gap:12px;justify-items:center;scroll-snap-align:center;flex:none}
-.rail .phone{--w:210px}
-.rail figcaption{text-align:center;display:grid;gap:2px;max-width:210px}
-.rail figcaption b{font-weight:600}
-.rail figcaption span{font-size:14px;color:var(--ink-2);line-height:1.45}
+.rail .phone{--w:200px}
+.rail figcaption{text-align:center;display:grid;gap:2px;max-width:200px}
+.rail figcaption b{font-weight:700}
+.rail figcaption span{font-size:13.5px;color:var(--ink-2);line-height:1.5}
 .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-inline-end:6px;vertical-align:1px}
 
 /* ---------- Demo ---------- */
-.demo{background:var(--sun);background-image:radial-gradient(60% 45% at 12% 18%,#F3CC32 0 58%,transparent 59%),radial-gradient(50% 40% at 92% 82%,#F3CC32 0 58%,transparent 59%),radial-gradient(38% 30% at 78% 10%,#FBE27A 0 58%,transparent 59%)}
+.demo{background:var(--sand)}
 .tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-.tab{border:0;background:rgba(255,255,255,.6);border-radius:999px;padding:8px 16px;font-weight:500;font-size:14px}
+.tab{border:0;background:#fff;border-radius:999px;padding:7px 14px;font-weight:500;font-size:13.5px}
 .tab[aria-selected="true"]{background:var(--ink);color:#fff}
 .demo-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:clamp(16px,3vw,40px);align-items:center;margin-top:28px}
 .demo-grid .phone{--w:270px}
-.fcol{display:grid;gap:18px}
-.fcard{background:#fff;border-radius:22px;padding:16px 18px;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:start;box-shadow:0 18px 30px -24px rgba(90,70,0,.5);max-width:300px}
+.fcol{display:grid;gap:16px}
+.fcard{background:#fff;border-radius:18px;padding:16px 18px;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:start;max-width:300px}
 .fcol:first-child .fcard:nth-child(2){margin-inline-start:40px}
 .fcol:last-child .fcard:nth-child(1){margin-inline-start:40px}
-.ficon{grid-row:span 2;width:38px;height:38px;border-radius:12px;display:grid;place-items:center}
+.ficon{grid-row:span 2;width:38px;height:38px;border-radius:11px;display:grid;place-items:center}
 .ficon svg{width:20px;height:20px}
-.fcard b{font-weight:600;line-height:1.35}
-.fcard span{font-size:13.5px;color:var(--ink-2);line-height:1.45}
-.demo-note{margin-top:24px;background:rgba(255,255,255,.7);border-radius:22px;padding:14px 18px;max-width:640px;margin-inline:auto;text-align:center;font-size:15px}
-.controls{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:14px}
-.ctl{border:0;border-radius:999px;padding:10px 20px;font-weight:600;background:var(--ink);color:#fff}
-.ctl.alt{background:#fff;color:var(--ink)}
-.snd{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;background:rgba(255,255,255,.6);padding:8px 14px;border-radius:999px}
+.fcard b{font-weight:700;line-height:1.4}
+.fcard span{font-size:13.5px;color:var(--ink-2);line-height:1.5}
+.demo-note{margin-top:24px;background:#fff;border-radius:18px;padding:14px 18px;max-width:640px;margin-inline:auto;text-align:center;font-size:15px}
+.controls{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:12px}
+.ctl{border:0;border-radius:999px;padding:9px 20px;font-weight:700;background:var(--ink);color:#fff}
+.ctl.alt{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 1px var(--sand-2)}
+.snd{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;background:#fff;padding:8px 14px;border-radius:999px}
 .snd input{width:18px;height:18px;accent-color:var(--ink)}
 
-/* ---------- Brand kit ---------- */
-.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:clamp(24px,5vw,72px);align-items:center}
-.stack{display:grid;gap:16px;justify-items:start}
-.kit{display:grid;gap:14px;background:var(--sand);border-radius:26px;padding:18px;width:100%;max-width:440px}
+/* ---------- Generic two-column ---------- */
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:clamp(24px,5vw,64px);align-items:center}
+.split.rev{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)}
+.stack{display:grid;gap:14px;justify-items:start}
+.kit{display:grid;gap:14px;background:#fff;border-radius:22px;padding:18px;width:100%;max-width:440px}
 .kit label,.kit .klbl{font-size:13px;font-weight:600;color:var(--ink-2)}
 .field{display:grid;gap:6px}
-.kit input[type=text],.kit select{width:100%;border:0;border-radius:14px;padding:10px 14px;background:#fff}
+.kit input[type=text],.kit select{width:100%;border:1px solid var(--sand-2);border-radius:12px;padding:10px 14px;background:var(--cream)}
 .swatches{display:flex;gap:10px;flex-wrap:wrap}
-.swatch{width:40px;height:40px;border-radius:50%;border:0;box-shadow:inset 0 0 0 3px rgba(255,255,255,.5)}
-.swatch[aria-pressed="true"]{box-shadow:0 0 0 3px var(--cream),0 0 0 6px var(--ink)}
+.swatch{width:38px;height:38px;border-radius:12px;border:0}
+.swatch[aria-pressed="true"]{box-shadow:0 0 0 3px #fff,0 0 0 5px var(--ink)}
 .chk{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:var(--ink)}
 .chk input{width:18px;height:18px;accent-color:var(--ink)}
-.fixed-note{font-size:13.5px;color:var(--ink-2);line-height:1.5}
+.fixed-note{font-size:13.5px;color:var(--ink-2);line-height:1.55}
 .duo{display:flex;gap:clamp(12px,3vw,28px);justify-content:center;align-items:flex-end;flex-wrap:wrap;position:relative}
-.duo .phone{--w:240px}
-.duo .phone:first-child{transform:translateY(-24px)}
-.qr-card{position:absolute;bottom:-6px;right:0;background:#fff;border-radius:22px;padding:12px;display:grid;gap:6px;justify-items:center;box-shadow:0 20px 30px -22px rgba(0,0,0,.4);width:132px;z-index:3}
-.qr-card small{font-size:11.5px;color:var(--ink-2);text-align:center;line-height:1.35}
+.duo .phone{--w:236px}
+.duo .phone:first-child{transform:translateY(-22px)}
+.loy .duo .phone:first-child{transform:none}
+.loy .duo{align-items:flex-start}
+.qr-card{position:absolute;bottom:-6px;right:0;background:#fff;border-radius:18px;padding:12px;display:grid;gap:6px;justify-items:center;box-shadow:0 20px 30px -22px rgba(0,0,0,.4);width:130px;z-index:3}
+.qr-card small{font-size:11.5px;color:var(--ink-2);text-align:center;line-height:1.4}
 .qr{position:relative;width:100%;aspect-ratio:1}
 .qr svg{width:100%;height:100%;display:block}
-.qr .logo{position:absolute;inset:0;margin:auto;width:28%;height:28%;font-size:15px;box-shadow:0 0 0 4px #fff}
+.qr .logo{position:absolute;inset:0;margin:auto;width:28%;height:28%;font-size:14px;box-shadow:0 0 0 4px #fff}
+.rules{display:grid;gap:10px;margin:0;padding:0;list-style:none;width:100%}
+.rules li{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;font-size:15px;line-height:1.6}
+.rules li i{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;font-style:normal;font-weight:800;font-size:13px;margin-top:2px;flex:none}
+.rules li b{display:block;font-weight:700}
+.rules li span{display:block;color:var(--ink-2);font-size:14px}
+.on-dark .rules li span{color:rgba(255,255,255,.72)}
+
+/* ---------- Loyalty ---------- */
+.loy{background:var(--done-deep);color:#fff}
+.ltable{width:100%;border-collapse:collapse;font-size:14px}
+.ltable th,.ltable td{padding:8px 10px;text-align:start;border-bottom:1px solid rgba(255,255,255,.14);vertical-align:top}
+.ltable th{font-weight:600;color:rgba(255,255,255,.7);font-size:12.5px}
+.ltable b{font-family:var(--f-display);font-weight:800;color:var(--bell)}
+
+/* ---------- Game ---------- */
+.gamesec{background:#fff;border:1px solid var(--sand-2)}
+.bigcanvas{width:min(100%,420px);aspect-ratio:1;border-radius:24px;background:#fff;box-shadow:0 30px 50px -36px rgba(0,0,0,.4);touch-action:none;cursor:crosshair;display:block;margin-inline:auto;border:1px solid var(--sand-2)}
+.gctl{display:flex;gap:10px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+
+/* ---------- Offline / accuracy ---------- */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.two .block{padding-block:clamp(24px,4vw,44px)}
+.two .inner{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(16px,3vw,32px);align-items:center}
+.two .phone{--w:220px}
+.off{background:var(--sand)}
+.acc{background:var(--wait-soft)}
 
 /* ---------- Staff ---------- */
-.staff{background:var(--sand)}
+.staff{background:#fff;border:1px solid var(--sand-2)}
 .staff-grid{display:grid;gap:clamp(24px,4vw,40px)}
-.staff-grid .stack{grid-template-columns:minmax(0,1fr);max-width:none}
 .staff-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,56px);align-items:end}
 .tablet-scroll{overflow-x:auto;padding-bottom:10px}
-.tablet{min-width:760px;max-width:1000px;margin-inline:auto;border:11px solid var(--ink);border-radius:34px;background:var(--cream);box-shadow:0 36px 60px -34px rgba(24,23,27,.5);font-size:14px}
+.tablet{min-width:760px;max-width:1000px;margin-inline:auto;border:11px solid var(--ink);border-radius:30px;background:var(--cream);box-shadow:0 30px 50px -30px rgba(28,27,26,.5);font-size:14px}
 .board{padding:16px;display:grid;gap:14px}
 .b-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
 .b-head .bar{align-self:auto;font-size:14px}
 .b-actions{display:flex;gap:8px}
-.b-btn{border:0;border-radius:999px;padding:9px 16px;font-weight:600;font-size:13.5px;background:#fff}
-.b-btn.ink{background:var(--ink);color:#fff}
+.b-btn{border:0;border-radius:999px;padding:9px 16px;font-weight:600;font-size:13.5px;background:#fff;box-shadow:inset 0 0 0 1px var(--sand-2)}
+.b-btn.ink{background:var(--ink);color:#fff;box-shadow:none}
 .b-btn .k{display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:6px;vertical-align:1px}
 .b-cols{display:grid;grid-template-columns:1fr 1fr 170px;gap:14px;align-items:start}
-.b-col{background:var(--sand);border-radius:22px;padding:12px;display:grid;gap:10px}
-.b-col h4{font-weight:600;font-size:14px;display:flex;justify-content:space-between;align-items:center;padding-inline:4px}
+.b-col{background:var(--sand);border-radius:18px;padding:12px;display:grid;gap:10px}
+.b-col h4{font-weight:700;font-size:14px;display:flex;justify-content:space-between;align-items:center;padding-inline:4px}
 .b-col h4 span{background:#fff;border-radius:999px;padding:0 10px;font-size:13px}
-.o-card{background:#fff;border-radius:18px;padding:12px;display:grid;grid-template-columns:1fr auto;gap:8px 10px;align-items:center}
+.o-card{background:#fff;border-radius:14px;padding:12px;display:grid;grid-template-columns:1fr auto;gap:8px 10px;align-items:center}
 .o-num{font-family:var(--f-display);font-weight:800;font-size:28px;line-height:1}
 .timer{font-variant-numeric:tabular-nums;font-weight:600;font-size:13.5px;background:var(--sand);border-radius:999px;padding:2px 10px;justify-self:end}
-.timer.late{background:var(--ember-soft);color:#9A4A10}
+.timer.late{background:var(--delay-soft);color:#8A3A18}
 .chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;font-size:12.5px;font-weight:500;justify-self:start}
 .chip::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.8}
-.c-watch{background:var(--sky-soft);color:#1F5C8A}
-.c-way{background:var(--grass-soft);color:#2C6B1C}
-.c-step{background:var(--sun-soft);color:#7A5C00}
+.c-watch{background:var(--wait-soft);color:var(--wait-deep)}
+.c-way{background:var(--done-soft);color:var(--done-deep)}
+.c-step{background:var(--near-soft);color:#6B4F10}
 .c-none{background:var(--sand-2);color:var(--ink-2)}
-.c-noresp{background:var(--bubble-soft);color:#A02A62}
-.o-btn{border:0;border-radius:14px;padding:10px 18px;font-weight:600;background:var(--ink);color:#fff;font-size:14px}
-.o-btn.ok{background:var(--grass);color:#fff}
+.c-noresp{background:var(--delay-soft);color:#8A3A18}
+.c-conf{background:#EADCF3;color:#5B3A7A}
+.o-btn{border:0;border-radius:11px;padding:10px 18px;font-weight:700;background:var(--ink);color:#fff;font-size:14px}
+.o-btn.ok{background:var(--done);color:#fff}
 .o-btn.sec{background:var(--sand);color:var(--ink)}
-.o-card.alert{box-shadow:inset 0 0 0 2px var(--bubble);animation:alertp 1.8s ease-in-out infinite}
-@keyframes alertp{50%{box-shadow:inset 0 0 0 2px var(--bubble),0 0 0 6px rgba(236,110,168,.18)}}
-.o-sub{grid-column:1/-1;font-size:12.5px;color:var(--ink-2);line-height:1.4}
+.o-card.alert{box-shadow:inset 0 0 0 2px var(--delay);animation:alertp 1.8s ease-in-out infinite}
+@keyframes alertp{50%{box-shadow:inset 0 0 0 2px var(--delay),0 0 0 6px rgba(181,85,45,.16)}}
+.o-sub{grid-column:1/-1;font-size:12.5px;color:var(--ink-2);line-height:1.45}
 .o-acts{display:flex;gap:6px;justify-self:end}
 .b-side{display:grid;gap:10px}
-.stat{background:#fff;border-radius:18px;padding:12px 14px;display:grid;gap:2px}
+.stat{background:#fff;border-radius:14px;padding:12px 14px;display:grid;gap:2px}
 .stat small{font-size:12px;color:var(--ink-2)}
-.stat b{font-family:var(--f-display);font-weight:800;font-size:28px;line-height:1.05;font-variant-numeric:tabular-nums}
-.stat.warn b{color:#B85A18}
-.rules{display:grid;gap:10px;margin:0;padding:0;list-style:none}
-.rules li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;font-size:15px;line-height:1.5}
-.rules li i{width:26px;height:26px;border-radius:9px;display:grid;place-items:center;font-style:normal;font-weight:700;font-size:13px;margin-top:1px}
+.stat b{font-family:var(--f-display);font-weight:800;font-size:26px;line-height:1.1;font-variant-numeric:tabular-nums}
+.stat.warn b{color:var(--delay)}
 
 /* ---------- Manager ---------- */
-.mgr{background:linear-gradient(180deg,#F4F0E4 0%,#F4F0E4 38%,#CDE7B4 38.1%);}
-.hills{position:absolute;inset:auto 0 0 0;height:66%;z-index:0;background:
- radial-gradient(60% 55% at 15% 100%,#6DB24B 0 70%,transparent 71%),
- radial-gradient(55% 60% at 60% 105%,#5AA63B 0 70%,transparent 71%),
- radial-gradient(50% 48% at 95% 95%,#79BD55 0 70%,transparent 71%),
- radial-gradient(70% 45% at 40% 70%,#8CC96A 0 70%,transparent 71%),
- radial-gradient(60% 40% at 88% 60%,#9BD27A 0 70%,transparent 71%)}
+.mgr{background:var(--wait-soft)}
 .mgr-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:clamp(16px,3vw,36px);align-items:center}
 .mgr .phone{--w:270px}
-.panel{background:#fff;border-radius:24px;padding:16px 18px;display:grid;gap:10px;box-shadow:0 22px 34px -26px rgba(20,60,10,.55)}
-.panel h4{font-weight:600;font-size:15px}
-.panel small{font-size:12.5px;color:var(--ink-2);line-height:1.45}
+.panel{background:#fff;border-radius:18px;padding:16px 18px;display:grid;gap:10px}
+.panel h4{font-weight:700;font-size:15px}
+.panel small{font-size:12.5px;color:var(--ink-2);line-height:1.5}
 .heat{display:grid;grid-template-columns:auto repeat(16,1fr);gap:3px;font-size:10.5px;color:var(--ink-2);direction:ltr}
 .heat .d{direction:rtl;text-align:right;padding-right:4px;white-space:nowrap}
-.heat i{aspect-ratio:1;border-radius:4px;display:block}
+.heat i{aspect-ratio:1;border-radius:3px;display:block}
 .heat .h{text-align:center}
 .legend{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink-2);direction:ltr;justify-content:flex-end}
 .legend i{width:16px;height:10px;border-radius:3px;display:block}
-.split-bar{display:flex;height:14px;border-radius:999px;overflow:hidden;direction:ltr}
+.split-bar{display:flex;height:12px;border-radius:999px;overflow:hidden;direction:ltr}
 .split-bar i{display:block}
-.kv{display:flex;justify-content:space-between;font-size:13px;gap:8px}
 .mtiles{display:grid;grid-template-columns:1fr 1fr;gap:.5em;align-self:stretch}
-.mt{background:#fff;border-radius:1.1em;padding:.6em .75em;text-align:start;display:grid;gap:.1em}
-.mt small{font-size:.75em;color:var(--ink-2)}
-.mt b{font-family:var(--f-display);font-weight:800;font-size:1.55em;line-height:1;font-variant-numeric:tabular-nums}
-.mt em{font-style:normal;font-size:.72em;font-weight:600;color:#B85A18}
-.rec{align-self:stretch;background:var(--ink);color:#fff;border-radius:1.3em;padding:.8em .9em;text-align:start;display:grid;gap:.35em;font-size:.9em;line-height:1.45}
-.rec b{color:var(--sun)}
+.mt{background:#fff;border-radius:.9em;padding:.6em .75em;text-align:start;display:grid;gap:.1em}
+.mt small{font-size:.74em;color:var(--ink-2)}
+.mt b{font-family:var(--f-display);font-weight:800;font-size:1.5em;line-height:1.1;font-variant-numeric:tabular-nums}
+.mt em{font-style:normal;font-size:.7em;font-weight:600;color:var(--delay)}
+.rec{align-self:stretch;background:var(--ink);color:#fff;border-radius:1.1em;padding:.8em .9em;text-align:start;display:grid;gap:.3em;font-size:.88em;line-height:1.5}
+.rec b{color:var(--bell)}
 .rec a{color:#fff;font-size:.9em;font-weight:600}
-.now{align-self:stretch;background:var(--sun);border-radius:1.1em;padding:.55em .8em;text-align:start;font-size:.85em;font-weight:500;line-height:1.4}
+.now{align-self:stretch;background:var(--near-soft);border-radius:.9em;padding:.55em .8em;text-align:start;font-size:.84em;font-weight:500;line-height:1.45}
 
 /* ---------- TV ---------- */
-.tvsec{background:#101217;color:#fff;background-image:radial-gradient(circle at 8% 20%,rgba(255,255,255,.04) 0 90px,transparent 91px),radial-gradient(circle at 92% 80%,rgba(255,255,255,.04) 0 120px,transparent 121px)}
-.tvsec .lede{color:rgba(255,255,255,.72)}
-.tv-scroll{overflow-x:auto;margin-top:32px;padding-bottom:8px}
-.tv{min-width:720px;max-width:980px;margin-inline:auto;border:12px solid #2A2D35;border-radius:22px;aspect-ratio:16/9;background:var(--brand);position:relative;overflow:hidden;display:grid;grid-template-columns:1fr 230px}
+.tvsec{background:#15181D;color:#fff}
+.tv-scroll{overflow-x:auto;margin-top:28px;padding-bottom:8px}
+.tv{min-width:720px;max-width:980px;margin-inline:auto;border:12px solid #2A2E36;border-radius:18px;aspect-ratio:16/9;background:var(--brand);position:relative;overflow:hidden;display:grid;grid-template-columns:1fr 230px}
 .tv-main{padding:28px 32px;display:grid;grid-template-rows:auto 1fr auto;gap:18px}
-.tv-main h4{font-family:var(--f-display);font-weight:800;font-size:34px;line-height:1}
+.tv-main h4{font-family:var(--f-display);font-weight:800;font-size:32px;line-height:1.1}
 .tv-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-content:start}
-.tv-tile{background:#fff;color:var(--ink);border-radius:22px;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:58px;line-height:1;padding-block:14px 8px}
-.tv-tile.new{background:var(--sun);animation:tvp 1.6s ease-in-out infinite}
+.tv-tile{background:#fff;color:var(--ink);border-radius:18px;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:56px;line-height:1;padding-block:16px 10px}
+.tv-tile.new{background:var(--bell);animation:tvp 1.6s ease-in-out infinite}
 @keyframes tvp{50%{transform:scale(1.05)}}
-.tv-foot{display:flex;align-items:center;gap:14px;font-size:17px;font-weight:500}
+.tv-foot{display:flex;align-items:center;gap:14px;font-size:16px;font-weight:500}
 .tv-foot .qr{width:74px;background:#fff;border-radius:10px;padding:5px}
-.tv-side{background:rgba(0,0,0,.18);padding:28px 20px;display:grid;align-content:start;gap:10px}
-.tv-side h5{font-size:17px;font-weight:600;margin:0 0 4px}
-.tv-side span{font-family:var(--f-display);font-weight:700;font-size:30px;line-height:1.1;opacity:.75}
-.tv-side .m-slot{width:110px;margin-top:10px}
+.tv-side{background:rgba(0,0,0,.22);padding:28px 20px;display:grid;align-content:start;gap:10px}
+.tv-side h5{font-size:16px;font-weight:700;margin:0 0 4px}
+.tv-side span{font-family:var(--f-display);font-weight:700;font-size:28px;line-height:1.2;opacity:.75}
 
 /* ---------- Tokens ---------- */
-.swgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:12px;width:100%}
-.sw-card{background:#fff;border-radius:22px;padding:10px;display:grid;gap:8px}
-.sw-chip{height:74px;border-radius:15px}
-.sw-card b{font-weight:600;font-size:14px;line-height:1.3;padding-inline:4px}
-.sw-card span{font-size:12.5px;color:var(--ink-2);padding-inline:4px;line-height:1.4}
-.sw-card code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;color:var(--ink-3);padding-inline:4px;direction:ltr;text-align:right}
-.states{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;width:100%}
-.st{border-radius:26px;padding:16px 14px 14px;display:grid;justify-items:center;gap:8px;text-align:center}
-.st .m-slot{width:110px}
-.st b{font-weight:600;font-size:15px}
-.st span{font-size:13px;line-height:1.45;opacity:.8}
+.swgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:10px;width:100%}
+.sw-card{background:#fff;border-radius:16px;padding:8px;display:grid;gap:6px}
+.sw-chip{height:60px;border-radius:11px}
+.sw-card b{font-weight:700;font-size:13.5px;line-height:1.3;padding-inline:4px}
+.sw-card span{font-size:12px;color:var(--ink-2);padding-inline:4px;line-height:1.45}
+.sw-card code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px;color:var(--ink-3);padding-inline:4px;direction:ltr;text-align:right}
+.states{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;width:100%}
+.st{border-radius:20px;padding:16px 12px 14px;display:grid;justify-items:center;gap:6px;text-align:center}
+.st .m-slot{width:84px}
+.st b{font-weight:700;font-size:14.5px}
+.st span{font-size:12.5px;line-height:1.5;opacity:.8}
 .type{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;width:100%}
-.tcard{background:#fff;border-radius:26px;padding:20px;display:grid;gap:8px;text-align:start}
-.tcard .spec-d{font-family:var(--f-display);font-weight:800;font-size:54px;line-height:1}
-.tcard .spec-b{font-size:22px;font-weight:500;line-height:1.3}
+.tcard{background:#fff;border-radius:20px;padding:20px;display:grid;gap:8px;text-align:start}
+.tcard .spec-d{font-family:var(--f-display);font-weight:800;font-size:48px;line-height:1.1}
+.tcard .spec-b{font-size:21px;font-weight:500;line-height:1.4}
 .tcard small{font-size:13px;color:var(--ink-2)}
 .do{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;width:100%;text-align:start}
-.do > div{border-radius:26px;padding:20px;display:grid;gap:10px;align-content:start}
-.do h4{font-weight:600;font-size:16px}
+.do > div{border-radius:20px;padding:20px;display:grid;gap:10px;align-content:start}
+.do h4{font-weight:700;font-size:16px}
 .foot{text-align:center;color:var(--ink-3);font-size:13px;padding-block:24px}
 
 @media (max-width:900px){
-  .demo-grid,.mgr-grid{grid-template-columns:1fr}
+  .demo-grid,.mgr-grid,.two{grid-template-columns:1fr}
   .demo-grid .phone,.mgr .phone{justify-self:center}
   .fcol{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
   .fcard{max-width:none}
   .fcol .fcard:nth-child(n){margin-inline-start:0}
   .demo-grid .fcol:first-child{order:2}.demo-grid .fcol:last-child{order:3}
-  .split{grid-template-columns:1fr}
+  .split,.split.rev{grid-template-columns:1fr}
   .mgr-grid .panel-col:first-child{order:2}
 }
 @media (max-width:640px){
@@ -325,78 +376,54 @@ h1,h2,h3,h4,p{margin:0}
   .duo .phone:first-child{transform:none}
   .qr-card{position:static}
   .side-m.a{display:none}
-  .hero-row{margin-top:-40px}
   .stores{display:none}
-  .cloud{--cw:70px!important}
-  .staff-top{grid-template-columns:1fr}
+  .staff-top,.two .inner{grid-template-columns:1fr}
+  .two .phone{justify-self:center}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
 }
 </style>
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <defs>
-    <filter id="fur" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
-      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="noise"/>
-      <feDisplacementMap in="SourceGraphic" in2="noise" scale="12" xChannelSelector="R" yChannelSelector="G" result="shape"/>
-      <feTurbulence type="fractalNoise" baseFrequency="2.4" numOctaves="1" seed="3" result="fine"/>
-      <feColorMatrix in="fine" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -0.7 0 0 0 0.4" result="specks"/>
-      <feComposite in="specks" in2="shape" operator="in" result="tex"/>
-      <feMerge><feMergeNode in="shape"/><feMergeNode in="tex"/></feMerge>
-    </filter>
-    <radialGradient id="g-yellow" cx="38%" cy="30%" r="78%"><stop offset="0" stop-color="#FFEB94"/><stop offset=".55" stop-color="#F7C61C"/><stop offset="1" stop-color="#C98F06"/></radialGradient>
-    <radialGradient id="g-pink" cx="38%" cy="30%" r="78%"><stop offset="0" stop-color="#FFC0DD"/><stop offset=".55" stop-color="#EC6EA8"/><stop offset="1" stop-color="#B53B77"/></radialGradient>
-    <radialGradient id="g-blue" cx="38%" cy="30%" r="78%"><stop offset="0" stop-color="#A6CCFF"/><stop offset=".55" stop-color="#4C86E6"/><stop offset="1" stop-color="#2554AE"/></radialGradient>
-    <radialGradient id="g-purple" cx="38%" cy="30%" r="78%"><stop offset="0" stop-color="#DCC9FF"/><stop offset=".55" stop-color="#9A78EC"/><stop offset="1" stop-color="#6541B8"/></radialGradient>
-    <radialGradient id="g-green" cx="38%" cy="30%" r="78%"><stop offset="0" stop-color="#C3EBA5"/><stop offset=".55" stop-color="#65B447"/><stop offset="1" stop-color="#3B7A24"/></radialGradient>
-    <radialGradient id="g-orange" cx="38%" cy="30%" r="78%"><stop offset="0" stop-color="#FFCB9C"/><stop offset=".55" stop-color="#F08A3C"/><stop offset="1" stop-color="#B65616"/></radialGradient>
-    <radialGradient id="g-white" cx="38%" cy="30%" r="78%"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".6" stop-color="#F4EEF6"/><stop offset="1" stop-color="#C9BDD6"/></radialGradient>
-  </defs>
-</svg>
-
 <main class="wrap">
 
   <!-- HERO -->
   <section class="block hero" aria-label="دورك">
+    <svg class="hero-pattern" aria-hidden="true" focusable="false"><defs><pattern id="geo" width="72" height="72" patternUnits="userSpaceOnUse"><path d="M36 4l32 32-32 32L4 36z M36 18l18 18-18 18-18-18z" fill="none" stroke="#fff" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(#geo)"/></svg>
     <div class="hero-top">
       <div class="meta-row">
         <div class="meta"><b>تصميم المنتج</b><span>نظام النداء والانتظار</span></div>
         <div class="meta"><b>بلا تطبيق</b><span>يعمل من متصفح الجوال</span></div>
       </div>
-      <div class="stores"><span class="store">صفحة ويب للعميل</span><span class="store">لوحة الموظف</span></div>
+      <div class="stores"><span class="store">صفحة ويب للعميل</span><span class="store">لوحة الموظف</span><span class="store">لوحة المدير</span></div>
     </div>
-    <span class="cloud" style="--cw:150px;top:22%;right:6%"></span>
-    <span class="cloud" style="--cw:110px;top:44%;left:4%"></span>
-    <span class="cloud" style="--cw:170px;top:30%;left:12%"></span>
-    <span class="cloud" style="--cw:120px;top:58%;right:2%"></span>
     <div class="hero-stage">
-      <div class="peek" data-m="yellow:squint"></div>
       <h1 class="wordmark">دورك</h1>
+      <p class="tag-line">دورك يصلك، أينما كنت.</p>
       <div class="hero-row">
-        <div class="side-m a bob" data-m="yellow:look:drift"></div>
+        <div class="side-m a sway" data-m="white:look:drift"></div>
         <div class="phone" data-screen="wait"></div>
-        <div class="side-m b bob-2" data-m="purple:spiral"></div>
+        <div class="side-m sway-2" data-m="bell:wide"></div>
       </div>
     </div>
   </section>
 
   <!-- INTRO -->
   <section class="section center">
-    <span class="floaty" style="top:6%;right:24%;background:var(--sky-soft)" data-m="blue:look"></span>
-    <span class="floaty" style="top:18%;left:8%;background:var(--bubble-soft)" data-m="pink:heart"></span>
-    <span class="floaty" style="bottom:4%;right:6%;background:var(--sun-soft)" data-m="yellow:wide"></span>
-    <span class="floaty" style="bottom:10%;left:18%;background:var(--grass-soft)" data-m="green:sleep"></span>
-    <span class="eyebrow e-pink">نداء بلا أجهزة</span>
-    <h2 class="h2" style="max-width:17ch">نظام نداء وانتظار يعرف فيه العميل ماذا يحدث ومتى</h2>
+    <span class="floaty" style="top:6%;right:22%;background:var(--wait-soft)" data-m="wait:look"></span>
+    <span class="floaty" style="top:16%;left:8%;background:var(--done-soft)" data-m="done:happy"></span>
+    <span class="floaty" style="bottom:6%;right:6%;background:var(--near-soft)" data-m="bell:wide"></span>
+    <span class="floaty" style="bottom:12%;left:18%;background:var(--sand)" data-m="pause:sleep"></span>
+    <span class="eyebrow e-brand">نداء بلا أجهزة</span>
+    <h2 class="h2" style="max-width:18ch">نظام نداء وانتظار يعرف فيه العميل ماذا يحدث ومتى</h2>
     <p class="lede">يمسح العميل الرمز، فيرى وقتًا متوقعًا صادقًا، ويصله النداء حتى لو ابتعد عن الكاونتر. الموظف يضغط زرًا واحدًا، والمدير يرى أين يضيع الوقت.</p>
   </section>
 
   <!-- JOURNEY -->
   <section class="section center" style="padding-top:0">
-    <span class="eyebrow e-green">رحلة العميل</span>
+    <span class="eyebrow e-done">رحلة العميل</span>
     <h2 class="h2">لكل حالة لون، ولكل لون معنى</h2>
-    <p class="lede">العميل يعرف الحالة من طرف عينه قبل أن يقرأ. الأزرق انتظار، والأصفر اقتراب، ولون المنشأة نداء، والأخضر استلام.</p>
+    <p class="lede">العميل يعرف الحالة من طرف عينه قبل أن يقرأ. الأزرق انتظار، والذهبي اقتراب، ولون المنشأة نداء، والأخضر استلام.</p>
     <div class="rail" id="rail" style="width:100%"></div>
   </section>
 
@@ -414,13 +441,13 @@ h1,h2,h3,h4,p{margin:0}
     </div>
     <div class="demo-grid">
       <div class="fcol">
-        <div class="fcard"><span class="ficon" style="background:var(--sky-soft)"><svg viewBox="0 0 24 24" fill="none" stroke="#1F5C8A" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><b>وقت متوقع صادق</b><span>نطاق يتحدّث كل 30 ثانية من بيانات الفرع نفسه، لا رقم ثابت.</span></div>
-        <div class="fcard"><span class="ficon" style="background:var(--bubble-soft)"><svg viewBox="0 0 24 24" fill="none" stroke="#A02A62" stroke-width="2.2" stroke-linecap="round"><path d="M4 18h4v-4h4v-4h4V6h4"/></svg></span><b>سلّم نداء</b><span>الصفحة، ثم الإشعار، ثم واتساب، ثم تنبيه الموظف. لا طلب يضيع بصمت.</span></div>
+        <div class="fcard"><span class="ficon" style="background:var(--wait-soft)"><svg viewBox="0 0 24 24" fill="none" stroke="#3B5872" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><b>وقت متوقع صادق</b><span>نطاق يتحدّث كل 30 ثانية من بيانات الفرع نفسه، لا رقم ثابت.</span></div>
+        <div class="fcard"><span class="ficon" style="background:var(--delay-soft)"><svg viewBox="0 0 24 24" fill="none" stroke="#8A3A18" stroke-width="2.2" stroke-linecap="round"><path d="M4 18h4v-4h4v-4h4V6h4"/></svg></span><b>سلّم نداء</b><span>الصفحة، ثم الإشعار، ثم واتساب، ثم تنبيه الموظف. لا طلب يضيع بصمت.</span></div>
       </div>
       <div class="phone" id="demo-phone"></div>
       <div class="fcol">
-        <div class="fcard"><span class="ficon" style="background:var(--grass-soft)"><svg viewBox="0 0 24 24" fill="none" stroke="#2C6B1C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span><b>رد بلمسة واحدة</b><span>في الطريق، سأتأخر قليلًا، ليس طلبي. يظهر الرد على لوحة الموظف فورًا.</span></div>
-        <div class="fcard"><span class="ficon" style="background:#E3DDF8"><svg viewBox="0 0 24 24" fill="none" stroke="#4B36A0" stroke-width="2.2" stroke-linecap="round"><path d="M20 14A8 8 0 1 1 10 4a6 6 0 0 0 10 10z"/></svg></span><b>إيقاف للصلاة</b><span>المؤقتات تتجمّد، والعميل يعرف أن طلبه محفوظ.</span></div>
+        <div class="fcard"><span class="ficon" style="background:var(--done-soft)"><svg viewBox="0 0 24 24" fill="none" stroke="#2E5F48" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span><b>رد بلمسة واحدة</b><span>في الطريق، سأتأخر قليلًا، ليس طلبي. يظهر الرد على لوحة الموظف فورًا.</span></div>
+        <div class="fcard"><span class="ficon" style="background:var(--near-soft)"><svg viewBox="0 0 24 24" fill="none" stroke="#6B4F10" stroke-width="2.2" stroke-linecap="round"><path d="M20 14A8 8 0 1 1 10 4a6 6 0 0 0 10 10z"/></svg></span><b>إيقاف للصلاة</b><span>المؤقتات تتجمّد، والعميل يعرف أن طلبه محفوظ.</span></div>
       </div>
     </div>
     <p class="demo-note" id="demo-note" aria-live="polite"></p>
@@ -430,7 +457,7 @@ h1,h2,h3,h4,p{margin:0}
   <section class="section">
     <div class="split">
       <div class="stack">
-        <span class="eyebrow e-pink">هوية المنشأة</span>
+        <span class="eyebrow e-brand">هوية المنشأة</span>
         <h2 class="h2">لكل منشأة شخصيتها</h2>
         <p class="lede">اللون والشعار والاسم ونقطة الاستلام من المنشأة. غيّر القيم هنا لترى كل شاشات الصفحة تتغيّر.</p>
         <div class="kit">
@@ -438,7 +465,7 @@ h1,h2,h3,h4,p{margin:0}
           <div class="field"><label for="cafe-name">اسم المنشأة</label><input type="text" id="cafe-name" value="مقهى سدرة" maxlength="22"></div>
           <div class="field"><label for="station">نقطة الاستلام</label>
             <select id="station"><option>نقطة الاستلام اليمنى</option><option>الكاونتر الرئيسي</option><option>نافذة السيارات</option></select></div>
-          <label class="chk" for="show-mascot"><input type="checkbox" id="show-mascot" checked> إظهار الشخصية في شاشات العميل</label>
+          <label class="chk" for="show-mascot"><input type="checkbox" id="show-mascot" checked> إظهار الجرس في شاشات العميل</label>
           <p class="fixed-note">ثابت في كل المنشآت: عبارة «حان دورك»، وبنية الشاشة، وعدد الأزرار. هذا ما يجعل العميل يتعرّف على النداء أينما ذهب.</p>
         </div>
       </div>
@@ -450,6 +477,88 @@ h1,h2,h3,h4,p{margin:0}
     </div>
   </section>
 
+  <!-- LOYALTY -->
+  <section class="block loy on-dark">
+    <div class="split rev">
+      <div class="stack">
+        <span class="eyebrow e-white">الولاء الذكي</span>
+        <h2 class="h2">بطاقة تُختم وحدها، وتكافئ الوقت المناسب</h2>
+        <p class="lede">بلا تسجيل وبلا مسح بطاقة. الختم يُضاف تلقائيًا عند تأكيد الاستلام، وقيمته تتغيّر حسب حالة الفرع. الولاء هنا يخدم التشغيل، لا العكس.</p>
+        <table class="ltable">
+          <thead><tr><th>القاعدة</th><th>الختم</th><th>لماذا</th></tr></thead>
+          <tbody>
+            <tr><td>استلام عادي</td><td><b>×1</b></td><td>الأساس</td></tr>
+            <tr><td>زيارة في ساعة هادئة</td><td><b>×2</b></td><td>تُخفّف الذروة وتوزّع الطلب</td></tr>
+            <tr><td>وعد زمني لم نفِ به</td><td><b>+1</b></td><td>اعتذار بلا نقاش</td></tr>
+            <tr><td>الاستلام خلال دقيقة من النداء</td><td><b>+½</b></td><td>يُفرغ الكاونتر ويقلّل الأكواب الباردة</td></tr>
+            <tr><td>10 أختام</td><td><b>مكافأة</b></td><td>تحددها المنشأة، وتُصرف برمز يُدخله الموظف</td></tr>
+          </tbody>
+        </table>
+        <ul class="rules">
+          <li><i style="background:var(--bell);color:var(--ink)">1</i><div><b>البطاقة مرتبطة بجهاز العميل</b><span>تُحفظ في المتصفح، وتُستعاد على جهاز آخر عبر واتساب عند الرغبة.</span></div></li>
+          <li><i style="background:var(--bell);color:var(--ink)">2</i><div><b>لا يمكن تزييف الختم</b><span>يُصدر من الخادم فقط عند انتقال الطلب إلى «تم الاستلام»، لا من الصفحة.</span></div></li>
+          <li><i style="background:var(--bell);color:var(--ink)">3</i><div><b>المنشأة تتحكم في القواعد</b><span>تُفعّل الساعات الهادئة وقيمة المكافأة والحد الأقصى اليومي.</span></div></li>
+        </ul>
+      </div>
+      <div class="duo"><div class="phone" data-screen="card"></div><div class="phone" data-screen="review" style="--w:220px"></div></div>
+    </div>
+  </section>
+
+  <!-- GAME -->
+  <section class="block gamesec">
+    <div class="split">
+      <div class="stack">
+        <span class="eyebrow e-near">تسلية الانتظار</span>
+        <h2 class="h2">زخرفة تُرسم بلمسة، وتتوقف عند النداء</h2>
+        <p class="lede">لعبة بصرية هادئة بلا نقاط ولا وقت ولا صوت: كل لمسة تملأ خلية وتنعكس ثماني مرات لتكوّن نجمة هندسية. عند النداء تختفي اللعبة وتحلّ شاشة «حان دورك» محلها.</p>
+        <ul class="rules">
+          <li><i style="background:var(--near-soft);color:#6B4F10">1</i><div><b>ألوان الزخرفة من لون المنشأة</b><span>كل منشأة لها لوحتها، والنتيجة تبدو جزءًا من هويتها.</span></div></li>
+          <li><i style="background:var(--near-soft);color:#6B4F10">2</i><div><b>تُحفظ الزخرفة مع الطلب</b><span>تظهر مصغّرة في شاشة الشكر، ويمكن للعميل حفظها كصورة.</span></div></li>
+          <li><i style="background:var(--near-soft);color:#6B4F10">3</i><div><b>اختيارية وخفيفة</b><span>زر واحد في شاشة الانتظار، ورسم على Canvas بلا مكتبات.</span></div></li>
+        </ul>
+      </div>
+      <div>
+        <canvas class="bigcanvas" id="bigcanvas" width="480" height="480" aria-label="لوحة الزخرفة: المس أو اسحب لتلوين الخلايا"></canvas>
+        <div class="gctl"><button class="ctl alt" type="button" id="g-new">زخرفة جديدة</button><button class="ctl alt" type="button" id="g-clear">مسح</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OFFLINE + ACCURACY -->
+  <div class="two">
+    <section class="block off">
+      <div class="inner">
+        <div class="stack">
+          <span class="eyebrow e-ink">بلا إنترنت</span>
+          <h2 class="h2" style="font-size:clamp(24px,3vw,34px)">أربع طبقات لمن انقطع اتصاله</h2>
+          <ul class="rules">
+            <li><i style="background:var(--ink);color:#fff">1</i><div><b>الصفحة تعمل محليًا</b><span>آخر حالة معروفة والعدّ التنازلي يستمران، ويُعاد الاتصال تلقائيًا.</span></div></li>
+            <li><i style="background:var(--ink);color:#fff">2</i><div><b>رسالة نصية بلا بيانات</b><span>يرسل العميل رقم طلبه إلى رقم الفرع، ويصله النداء برسالة نصية.</span></div></li>
+            <li><i style="background:var(--ink);color:#fff">3</i><div><b>شبكة الفرع بمسح واحد</b><span>رمز على الكاونتر يوصل الجوال بشبكة الفرع ويفتح صفحة الطلب.</span></div></li>
+            <li><i style="background:var(--ink);color:#fff">4</i><div><b>شاشة الأرقام والنداء الصوتي</b><span>الطبقة الأخيرة لا تحتاج جوالًا أصلًا.</span></div></li>
+          </ul>
+        </div>
+        <div class="phone" data-screen="offline"></div>
+      </div>
+    </section>
+    <section class="block acc">
+      <div class="inner">
+        <div class="stack">
+          <span class="eyebrow e-brand">دقة الربط</span>
+          <h2 class="h2" style="font-size:clamp(24px,3vw,34px)">لا رقم خاطئ ولا طلب مكرر</h2>
+          <ul class="rules">
+            <li><i style="background:var(--brand);color:#fff">1</i><div><b>اختيار بدل الكتابة</b><span>الصفحة تعرض آخر الطلبات غير المرتبطة، والعميل يلمس رقمه. الكتابة خيار ثانٍ.</span></div></li>
+            <li><i style="background:var(--brand);color:#fff">2</i><div><b>أرقام مقاومة للخطأ</b><span>الرقم الثالث يُشتق من الأولين، فالقلب أو الخطأ في رقم واحد يُرفض فورًا.</span></div></li>
+            <li><i style="background:var(--brand);color:#fff">3</i><div><b>بطاقة تأكيد بالسياق</b><span>عدد الأصناف ووقت الطلب قبل الربط، لا الرقم وحده.</span></div></li>
+            <li><i style="background:var(--brand);color:#fff">4</i><div><b>تعارض يُحلّ عند الكاونتر</b><span>إذا رُبط الرقم بجهاز آخر، تُعلَّم البطاقة للموظف ويُعاد الربط بلمسة.</span></div></li>
+            <li><i style="background:var(--brand);color:#fff">5</i><div><b>رمز على شاشة الموظف</b><span>بعد إدخال الطلب يظهر رمز QR للعميل 15 ثانية، فيرتبط بلا كتابة.</span></div></li>
+          </ul>
+        </div>
+        <div class="phone" data-screen="claim"></div>
+      </div>
+    </section>
+  </div>
+
   <!-- STAFF -->
   <section class="block staff">
     <div class="staff-grid">
@@ -457,12 +566,12 @@ h1,h2,h3,h4,p{margin:0}
        <div class="stack">
         <span class="eyebrow e-ink">لوحة الموظف</span>
         <h2 class="h2">ضغطة واحدة لكل حدث</h2>
-        <p class="lede">اللوحة تبقى هادئة وعملية. لا شخصيات ولا زخرفة، فقط ما يحتاجه الباريستا في الذروة.</p>
+        <p class="lede">اللوحة تبقى هادئة وعملية. لا شخصيات ولا زخرفة، فقط ما يحتاجه الموظف في الذروة.</p>
        </div>
         <ul class="rules">
-          <li><i style="background:var(--ink);color:#fff">1</i><span>زر «جاهز» يطلق النداء وسلّم التصعيد تلقائيًا.</span></li>
-          <li><i style="background:var(--ink);color:#fff">2</i><span>شريحة ملونة تقول ماذا فعل العميل: يشاهد، في الطريق، سيتأخر، لم يستجب.</span></li>
-          <li><i style="background:var(--ink);color:#fff">3</i><span>المؤقت يتلوّن عند التأخير، والبطاقة تنبض إذا لم يستجب العميل.</span></li>
+          <li><i style="background:var(--ink);color:#fff">1</i><div><b>زر «جاهز» يطلق النداء وسلّم التصعيد تلقائيًا.</b></div></li>
+          <li><i style="background:var(--ink);color:#fff">2</i><div><b>شريحة ملونة تقول ماذا فعل العميل</b><span>يشاهد، في الطريق، سيتأخر، لم يستجب، تعارض ربط.</span></div></li>
+          <li><i style="background:var(--ink);color:#fff">3</i><div><b>المؤقت يتلوّن عند التأخير</b><span>والبطاقة تنبض إذا لم يستجب العميل.</span></div></li>
         </ul>
       </div>
       <div class="tablet-scroll"><div class="tablet" id="tablet"></div></div>
@@ -471,9 +580,8 @@ h1,h2,h3,h4,p{margin:0}
 
   <!-- MANAGER -->
   <section class="block mgr">
-    <div class="hills" aria-hidden="true"></div>
     <div class="center" style="position:relative;z-index:1;margin-bottom:28px">
-      <span class="eyebrow e-green">لوحة المدير</span>
+      <span class="eyebrow e-brand">لوحة المدير</span>
       <h2 class="h2">إجابات، لا أرقام فقط</h2>
       <p class="lede">أين التأخير، ومتى يحدث، ولماذا، وماذا تفعل. كل توصية معها البيانات التي بُنيت عليها.</p>
     </div>
@@ -483,7 +591,7 @@ h1,h2,h3,h4,p{margin:0}
           <h4>متى يحدث التأخير؟</h4>
           <small>زمن التحضير P90 حسب اليوم والساعة، آخر 4 أسابيع</small>
           <div class="heat" id="heat"></div>
-          <div class="legend"><span>أقل</span><i style="background:#EFE9DB"></i><i style="background:#F9D98A"></i><i style="background:#F5B25C"></i><i style="background:#EE8A3C"></i><i style="background:#D9602A"></i><span>أعلى</span></div>
+          <div class="legend"><span>أقل</span><i style="background:#E9E5DC"></i><i style="background:#EBD39A"></i><i style="background:#D9A85B"></i><i style="background:#C4763B"></i><i style="background:#9E4A24"></i><span>أعلى</span></div>
         </div>
       </div>
       <div class="phone" id="mgr-phone"></div>
@@ -491,16 +599,17 @@ h1,h2,h3,h4,p{margin:0}
         <div class="panel">
           <h4>لماذا يتأخر فرع الملقا؟</h4>
           <small>تفكيك زمن الانتظار الكلي</small>
-          <div class="split-bar" aria-hidden="true"><i style="width:84%;background:var(--ember)"></i><i style="width:16%;background:var(--sky-deep)"></i></div>
-          <div class="kv"><span><span class="dot" style="background:var(--ember)"></span>التحضير</span><b class="ltr">7:10</b></div>
-          <div class="kv"><span><span class="dot" style="background:var(--sky-deep)"></span>استجابة العميل</span><b class="ltr">1:05</b></div>
+          <div class="split-bar" aria-hidden="true"><i style="width:84%;background:var(--delay)"></i><i style="width:16%;background:var(--wait)"></i></div>
+          <div class="kv"><span><span class="dot" style="background:var(--delay)"></span>التحضير</span><b class="ltr">7:10</b></div>
+          <div class="kv"><span><span class="dot" style="background:var(--wait)"></span>استجابة العميل</span><b class="ltr">1:05</b></div>
           <small>الاختناق في البار، لا في الاستلام.</small>
         </div>
         <div class="panel">
           <h4>هل تحسّن الأداء؟</h4>
-          <div class="kv"><span>الوسيط</span><b><span class="ltr">5:20</span> <span style="color:var(--grass-deep)">▼</span></b></div>
-          <div class="kv"><span>غير المستلم</span><b><span class="ltr">0.5%</span> <span style="color:var(--grass-deep)">▼</span></b></div>
-          <div class="kv"><span>دقة الوعد</span><b><span class="ltr">91%</span> <span style="color:var(--grass-deep)">▲</span></b></div>
+          <div class="kv"><span>الوسيط</span><b><span class="ltr">5:20</span> <span style="color:var(--done)">▼</span></b></div>
+          <div class="kv"><span>غير المستلم</span><b><span class="ltr">0.5%</span> <span style="color:var(--done)">▼</span></b></div>
+          <div class="kv"><span>دقة الوعد</span><b><span class="ltr">91%</span> <span style="color:var(--done)">▲</span></b></div>
+          <div class="kv"><span>تقييمات Google هذا الأسبوع</span><b><span class="ltr">+38</span></b></div>
           <small>مقارنة بالأسبوع الماضي. الأرقام أمثلة توضيحية.</small>
         </div>
       </div>
@@ -508,7 +617,7 @@ h1,h2,h3,h4,p{margin:0}
   </section>
 
   <!-- TV -->
-  <section class="block tvsec">
+  <section class="block tvsec on-dark">
     <div class="center">
       <span class="eyebrow e-white">شاشة الأرقام</span>
       <h2 class="h2">لمن لا يمسح الرمز</h2>
@@ -519,112 +628,147 @@ h1,h2,h3,h4,p{margin:0}
 
   <!-- TOKENS -->
   <section class="section center">
-    <span class="eyebrow e-green">أساس النظام</span>
-    <h2 class="h2">الألوان والخط والشخصية</h2>
+    <span class="eyebrow e-done">أساس النظام</span>
+    <h2 class="h2">الألوان والخط والجرس</h2>
     <p class="lede">مرجع التنفيذ في التطبيق. القيم نفسها موجودة في ملف الرموز داخل المستودع.</p>
     <div class="swgrid" id="swgrid"></div>
     <div class="type">
-      <div class="tcard"><small>خط العناوين والأرقام · Baloo Bhaijaan 2</small><div class="spec-d">حان دورك <span class="ltr">247</span></div><small>ممتلئ ومستدير. للأرقام والعبارات القصيرة فقط.</small></div>
-      <div class="tcard"><small>خط النصوص والواجهات · Readex Pro</small><div class="spec-b">يمكنك الانتظار حيث تشاء. سنُعلمك هنا.</div><small>واضح على الشاشات الصغيرة، ويدعم العربية واللاتينية.</small></div>
+      <div class="tcard"><small>خط العناوين والأرقام · Almarai</small><div class="spec-d">حان دورك <span class="ltr">247</span></div><small>ثقيل وواضح. للأرقام والعبارات القصيرة فقط.</small></div>
+      <div class="tcard"><small>خط النصوص والواجهات · IBM Plex Sans Arabic</small><div class="spec-b">يمكنك الانتظار حيث تشاء. سنُعلمك هنا.</div><small>محايد ومهني، يدعم العربية واللاتينية بوزن واحد.</small></div>
     </div>
     <div class="states" id="states"></div>
     <div class="do">
-      <div style="background:var(--grass-soft)"><h4>ما نأخذه من المرجع</h4><ul class="rules" id="take"></ul></div>
-      <div style="background:var(--bubble-soft)"><h4>ما لا نأخذه</h4><ul class="rules" id="skip"></ul></div>
+      <div style="background:var(--done-soft)"><h4>لماذا الجرس؟</h4><ul class="rules" id="take"></ul></div>
+      <div style="background:var(--sand)"><h4>ما لا نفعله</h4><ul class="rules" id="skip"></ul></div>
     </div>
   </section>
 
-  <p class="foot">دورك · لغة التصميم · مسودة أولى. الأرقام والأسماء في الشاشات أمثلة توضيحية.</p>
+  <p class="foot">دورك · لغة التصميم · مسودة ثانية. الأرقام والأسماء في الشاشات أمثلة توضيحية.</p>
 </main>
 
 <script>
 (function(){
   const COLORS=[
-    {n:'وردي',h:'#E0548F'},{n:'أزرق',h:'#3A7BD5'},{n:'أخضر',h:'#2F8F5B'},
-    {n:'برتقالي',h:'#D96B22'},{n:'بنفسجي',h:'#7456D1'},{n:'بني',h:'#6B4A34'}
+    {n:'أزرق مخضر',h:'#1F5F73'},{n:'كحلي',h:'#2E4A6B'},{n:'أخضر غامق',h:'#2F6B4F'},
+    {n:'نحاسي',h:'#8C5A2B'},{n:'عنابي',h:'#7A2E3E'},{n:'رمادي داكن',h:'#4A4E57'}
   ];
   const BRAND={name:'مقهى سدرة',branch:'فرع العليا',color:COLORS[0].h,station:'نقطة الاستلام اليمنى',mascot:true};
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const n=x=>`<span class="ltr">${x}</span>`;
   const initial=()=>{const w=BRAND.name.trim().split(/\s+/);return esc((w[w.length-1]||'د').charAt(0));};
 
-  /* ---------- Mascot ---------- */
-  function eyes(type){
-    const L=[74,94],R=[126,94];
-    const eye=(x,y,r,px,py,pr)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#fff" stroke="#18171B" stroke-opacity=".12" stroke-width="1.5"/><g class="pupil"><circle cx="${x+px}" cy="${y+py}" r="${pr}" fill="#18171B"/><circle cx="${x+px-pr*.38}" cy="${y+py-pr*.38}" r="${pr*.32}" fill="#fff"/></g>`;
-    const spiral=(cx,cy)=>{let d='';for(let t=0;t<=4.4*Math.PI;t+=.25){const r=1.5+t*1.55;d+=(d?'L':'M')+(cx+r*Math.cos(t)).toFixed(1)+' '+(cy+r*Math.sin(t)).toFixed(1);}return `<circle cx="${cx}" cy="${cy}" r="24" fill="#fff" stroke="#18171B" stroke-opacity=".12" stroke-width="1.5"/><path d="${d}" fill="none" stroke="#18171B" stroke-width="3.2" stroke-linecap="round"/>`;};
-    const heart=(x,y,s)=>`<circle cx="${x}" cy="${y}" r="22" fill="#fff" stroke="#18171B" stroke-opacity=".12" stroke-width="1.5"/><path d="M${x} ${y+s*.95}C${x-s*1.5} ${y+s*.05} ${x-s*.95} ${y-s*1.15} ${x} ${y-s*.35}C${x+s*.95} ${y-s*1.15} ${x+s*1.5} ${y+s*.05} ${x} ${y+s*.95}Z" fill="#18171B"/>`;
+  /* ---------- Bell mascot ---------- */
+  const BELL={wait:['#6F8DA8','#4E6E8E'],bell:['#D8AE45','#9A7320'],done:['#5E9A7C','#2E5F48'],white:['#FFFFFF','#D8D2C4'],delay:['#C97B58','#8A3A18'],pause:['#FFFFFF','#D8D2C4'],near:['#D8AE45','#9A7320'],offline:['#C9C3B5','#8A857B']};
+  function face(type,ink){
+    const L=[80,104],R=[120,104];
+    const dot=(x,y,r,dx,dy)=>`<g class="pupil"><circle cx="${x+dx}" cy="${y+dy}" r="${r}" fill="${ink}"/></g>`;
     switch(type){
-      case 'wide':return eye(L[0],L[1]-2,26,0,-6,10)+eye(R[0],R[1]-2,26,0,-6,10);
-      case 'down':return eye(L[0],L[1],22,0,7,10)+eye(R[0],R[1],22,0,7,10)+'<path d="M88 132Q100 124 112 132" fill="none" stroke="#18171B" stroke-width="4" stroke-linecap="round"/>';
-      case 'spiral':return spiral(L[0],L[1])+spiral(R[0],R[1]);
-      case 'heart':return heart(L[0],L[1],11)+heart(R[0],R[1],11);
-      case 'squint':return '<path d="M60 82L84 94L60 106M140 82L116 94L140 106" fill="none" stroke="#18171B" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M90 124H110" stroke="#18171B" stroke-width="6" stroke-linecap="round"/>';
-      case 'sleep':return '<path d="M60 94Q74 106 88 94M112 94Q126 106 140 94" fill="none" stroke="#18171B" stroke-width="5.5" stroke-linecap="round"/>';
-      default:return eye(L[0],L[1],22,3,2,11)+eye(R[0],R[1],22,3,2,11);
+      case 'wide':return `<path d="M68 84q12-8 24 0M108 84q12-8 24 0" fill="none" stroke="${ink}" stroke-width="4" stroke-linecap="round"/>`+dot(L[0],L[1],8,0,0)+dot(R[0],R[1],8,0,0);
+      case 'happy':return `<path d="M70 106q10-12 20 0M110 106q10-12 20 0" fill="none" stroke="${ink}" stroke-width="5" stroke-linecap="round"/>`;
+      case 'sorry':return `<path d="M68 90l22 8M132 90l-22 8" fill="none" stroke="${ink}" stroke-width="4" stroke-linecap="round"/>`+dot(L[0],L[1]+4,6,0,0)+dot(R[0],R[1]+4,6,0,0);
+      case 'sleep':return `<path d="M68 106h24M108 106h24" fill="none" stroke="${ink}" stroke-width="4.5" stroke-linecap="round"/>`;
+      case 'dash':return dot(L[0],L[1],6,0,0)+dot(R[0],R[1],6,0,0);
+      default:return dot(L[0],L[1],6.5,2,0)+dot(R[0],R[1],6.5,2,0);
     }
   }
   function mascot(c,e,cls){
+    const [fill,deep]=BELL[c]||BELL.bell;
+    const ink='#1C1B1A';
+    const dotted=c==='offline';
+    const waves=e==='wide'&&(c==='white'||c==='bell')?`<g class="waves" fill="none" stroke="${c==='white'?'#fff':deep}" stroke-width="5" stroke-linecap="round"><path d="M34 78q-14 30 0 60"/><path d="M18 66q-22 42 0 84"/><path d="M166 78q14 30 0 60"/><path d="M182 66q22 42 0 84"/></g>`:'';
+    const dome='M46 152C46 84 66 46 100 46s54 38 54 106z';
     return `<svg class="mascot ${cls||''}" viewBox="0 0 200 212" aria-hidden="true" focusable="false">
-      <ellipse cx="100" cy="203" rx="58" ry="7" fill="#18171B" opacity=".13"/>
-      <g filter="url(#fur)" fill="url(#g-${c})">
-        <ellipse cx="34" cy="130" rx="16" ry="23" transform="rotate(22 34 130)"/>
-        <ellipse cx="166" cy="130" rx="16" ry="23" transform="rotate(-22 166 130)"/>
-        <ellipse cx="76" cy="187" rx="18" ry="11"/><ellipse cx="124" cy="187" rx="18" ry="11"/>
-        <ellipse cx="100" cy="113" rx="71" ry="75"/>
-      </g>${eyes(e)}</svg>`;
+      <ellipse cx="100" cy="200" rx="52" ry="6" fill="#1C1B1A" opacity=".12"/>
+      ${waves}
+      <g ${dotted?`fill="none" stroke="${deep}" stroke-width="4" stroke-dasharray="8 8"`:''}>
+        <circle cx="100" cy="40" r="9" fill="${dotted?'none':deep}"/>
+        <path d="${dome}" fill="${dotted?'none':fill}"/>
+        ${dotted?'':'<path d="M62 150C62 100 76 62 100 62" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="7" stroke-linecap="round"/>'}
+        <rect x="36" y="148" width="128" height="20" rx="10" fill="${dotted?'none':deep}"/>
+        <circle cx="100" cy="176" r="10" fill="${dotted?'none':deep}"/>
+      </g>
+      ${face(dotted?'dash':e,ink)}</svg>`;
   }
   const mslot=(c,e,cls,sm)=>BRAND.mascot?`<div class="m-slot${sm?' sm':''} ${cls||''}">${mascot(c,e)}</div>`:'';
-  function hydrateMascots(root){
-    (root||document).querySelectorAll('[data-m]').forEach(el=>{
-      const [c,e,cls]=el.dataset.m.split(':');
-      el.innerHTML=mascot(c,e,cls==='drift'?'drift':'');
-    });
+  function hydrateMascots(){
+    document.querySelectorAll('[data-m]').forEach(el=>{const [c,e,cls]=el.dataset.m.split(':');el.innerHTML=mascot(c,e,cls==='drift'?'drift':'');});
   }
 
   /* ---------- Screens ---------- */
   const bar=()=>`<header class="bar"><span class="logo">${initial()}</span><div><b>${esc(BRAND.name)}</b><small>${esc(BRAND.branch)}</small></div></header>`;
   const tick='<span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg></span>';
+  const gIcon='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.3-.2-1.9H12v3.7h5.4c-.2 1.2-.9 2.3-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3z"/><path fill="#34A853" d="M12 22c2.7 0 5-.9 6.6-2.4l-3.2-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6C4.8 19.8 8.1 22 12 22z"/><path fill="#FBBC05" d="M6.4 14c-.2-.6-.3-1.3-.3-2s.1-1.4.3-2V7.4H3.1C2.4 8.8 2 10.4 2 12s.4 3.2 1.1 4.6L6.4 14z"/><path fill="#EA4335" d="M12 5.9c1.5 0 2.8.5 3.8 1.5l2.9-2.9C17 2.9 14.7 2 12 2 8.1 2 4.8 4.2 3.1 7.4L6.4 10c.8-2.3 3-4.1 5.6-4.1z"/></svg>';
   const SCREENS={
-    claim:()=>`<div class="screen s-claim">${bar()}${mslot('blue','look','bob drift',true)}
-      <h3 class="h3">أدخل رقم طلبك</h3><p class="hint">الرقم مطبوع على الفاتورة</p>
-      <div class="digits"><span>2</span><span>4</span><span class="cur">7</span></div>
-      <div class="card confirm">${tick}<div><b>طلب ${n(247)}</b><br><small>مشروبان · قبل ${n(40)} ثانية</small></div></div>
-      <div class="fill"></div><button class="btn ink" type="button" tabindex="-1">تأكيد الطلب</button><p class="hint">بلا تطبيق وبلا تسجيل</p></div>`,
-    wait:()=>`<div class="screen s-wait">${bar()}${mslot('yellow','look','bob drift')}
-      <span class="lbl">طلب</span><div class="num">${n(247)}</div><span class="pill"><i></i>قيد التحضير</span>
+    claim:()=>`<div class="screen s-claim">${bar()}<h3 class="h3">اختر طلبك</h3><p class="hint">آخر الطلبات في هذا الفرع غير المرتبطة بعد</p>
+      <div class="rlist">
+        <button class="ritem mine" type="button" tabindex="-1"><b>${n(247)}</b><small>مشروبان · قبل ${n(40)} ثانية</small><i>${tick}</i></button>
+        <button class="ritem" type="button" tabindex="-1"><b>${n(245)}</b><small>مشروب واحد · قبل دقيقتين</small><i></i></button>
+        <button class="ritem" type="button" tabindex="-1"><b>${n(243)}</b><small>${n(3)} أصناف · قبل ${n(3)} دقائق</small><i></i></button>
+      </div>
+      <p class="hint">أو اكتب الرقم</p><div class="digits"><span>2</span><span>7</span><span class="bad">4</span></div><p class="hint" style="color:var(--delay)">${n(274)} ليس رقم طلب صالحًا في هذا الفرع</p>
+      <div class="fill"></div><button class="btn ink" type="button" tabindex="-1">تأكيد الطلب ${n(247)}</button></div>`,
+    wait:()=>`<div class="screen s-wait">${bar()}${mslot('white','look','sway drift')}
+      <span class="lbl">طلب</span><div class="num">${n(247)}</div><span class="pill" style="color:var(--ink)"><i></i>قيد التحضير</span>
       <div class="card"><small>الوقت المتوقع</small><span class="big">${n('4–7')} دقائق</span><div class="queue"><i class="ahead"></i><i class="ahead"></i><i class="me"></i></div><small>أمامك طلبان</small></div>
-      <div class="toggle"><span>التنبيه على الجوال</span><span class="sw"></span></div>
+      <div class="toggle" style="color:var(--ink)"><span>التنبيه على الجوال</span><span class="sw"></span></div>
+      <button class="btn white row" type="button" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z"/></svg>ارسم زخرفة أثناء الانتظار</button>
       <p class="hint">يمكنك الانتظار حيث تشاء. سنُعلمك هنا.</p></div>`,
-    near:()=>`<div class="screen s-near">${bar()}${mslot('blue','wide','bob')}
-      <span class="lbl">طلب</span><div class="num">${n(247)}</div><span class="pill"><i style="background:var(--ember)"></i>بدأ تحضير طلبك</span>
+    game:()=>`<div class="screen s-game">${bar()}<div class="toggle" style="background:var(--sand)"><span>طلب ${n(247)} · قيد التحضير</span><span style="font-weight:700">${n('4–7')} د</span></div>
+      <canvas class="gcanvas" data-game width="300" height="300" aria-label="لوحة الزخرفة"></canvas>
+      <div class="gbar"><button class="btn white" type="button" data-gnew>جديدة</button><button class="btn white" type="button" data-gclear>مسح</button></div>
+      <p class="hint">المس اللوحة. كل لمسة تنعكس ثماني مرات. تتوقف اللعبة عند النداء.</p></div>`,
+    near:()=>`<div class="screen s-near">${bar()}${mslot('bell','wide','sway')}
+      <span class="lbl">طلب</span><div class="num">${n(247)}</div><span class="pill"><i style="background:var(--near)"></i>بدأ تحضير طلبك</span>
       <div class="card"><small>الوقت المتوقع</small><span class="big">أقل من دقيقة</span><div class="queue"><i class="me"></i></div><small>أنت التالي</small></div>
       <p class="hint" style="color:var(--ink)">يمكنك التوجه إلى ${esc(BRAND.station)}.</p></div>`,
-    call:()=>`<div class="screen s-call"><div class="rings"><i></i><i></i><i></i></div>${bar()}${mslot('white','wide','hop')}
+    call:()=>`<div class="screen s-call"><div class="rings"><i></i><i></i><i></i></div>${bar()}${mslot('white','wide','ring-anim')}
       <div class="call-word">حان دورك</div><div class="call-num">${n(247)}</div><span class="where">${esc(BRAND.station)}</span>
       <div class="fill"></div><button class="btn ink" type="button" tabindex="-1">استلمت الطلب</button><button class="btn white" type="button" tabindex="-1">في الطريق</button><button class="btn ghost" type="button" tabindex="-1">سأتأخر قليلًا</button></div>`,
-    done:()=>`<div class="screen s-done">${bar()}${mslot('pink','heart','bob')}
+    done:()=>`<div class="screen s-done">${bar()}${mslot('done','happy','sway',true)}
       <h3 class="h3">شكرًا لك</h3><p class="hint" style="color:var(--ink)">مدة الانتظار ${n(6)} دقائق</p>
-      <div class="card"><small>كيف كانت التجربة؟</small><div class="faces"><button class="face" type="button" tabindex="-1" aria-label="غير جيدة">${mascot('blue','down')}</button><button class="face" type="button" tabindex="-1" aria-label="جيدة">${mascot('yellow','look')}</button><button class="face on" type="button" tabindex="-1" aria-label="ممتازة">${mascot('pink','heart')}</button></div></div>
-      <div class="fill"></div><button class="btn ink" type="button" tabindex="-1">احفظ المنشأة على الشاشة الرئيسية</button><p class="hint">تصلك التنبيهات تلقائيًا في زيارتك القادمة</p></div>`,
-    delay:()=>`<div class="screen s-delay">${bar()}<div class="banner">طلبك متأخر دقيقتين عن الوقت المتوقع. نعتذر.</div>${mslot('purple','squint','bob',true)}
+      <div class="card"><small>كيف كانت التجربة؟</small><div class="faces"><button class="face" type="button" tabindex="-1" aria-label="غير جيدة">${mascot('delay','sorry')}</button><button class="face" type="button" tabindex="-1" aria-label="جيدة">${mascot('wait','look')}</button><button class="face on" type="button" tabindex="-1" aria-label="ممتازة">${mascot('done','happy')}</button></div></div>
+      <div class="tag"><i></i>أُضيف ختم إلى بطاقتك · ${n(7)} من ${n(10)}</div>
+      <div class="fill"></div><button class="btn ink" type="button" tabindex="-1">متابعة</button></div>`,
+    review:()=>`<div class="screen s-review">${bar()}${mslot('bell','happy','sway',true)}
+      <h3 class="h3">يسعدنا أن يعرف الآخرون</h3><p class="hint">تقييمك على خرائط Google يساعد ${esc(BRAND.name)}، ويُعرض للجميع كما هو.</p>
+      <button class="btn white row" type="button" tabindex="-1" style="box-shadow:inset 0 0 0 .1em var(--sand-2)">${gIcon}قيّم على خرائط Google</button>
+      <div class="card"><small>أو أرسل ملاحظة خاصة إلى إدارة الفرع</small><div style="background:var(--sand);border-radius:.6em;padding:.5em .7em;font-size:.82em;color:var(--ink-3)">اكتب ملاحظتك هنا</div></div>
+      <div class="fill"></div><button class="btn ghost" type="button" tabindex="-1">لاحقًا</button></div>`,
+    card:()=>`<div class="screen s-card">${bar()}<h3 class="h3" style="font-size:1.3em">بطاقة ${esc(BRAND.name)}</h3>
+      <div class="lcard"><b>${n(7)} من ${n(10)} أختام</b><div class="stamps"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="x2"></i><i></i><i></i></div><small>المكافأة: مشروب من اختيارك · تُصرف برمز عند الكاونتر</small></div>
+      <div class="tag"><i></i>الفرع هادئ الآن: الختم التالي مضاعف</div>
+      <div class="card"><small>سجل الأختام</small><div class="kv" style="font-size:.82em"><span>اليوم · استلام خلال دقيقة</span><b>${n('+1½')}</b></div><div class="kv" style="font-size:.82em"><span>الأحد · تأخر عن الوعد</span><b>${n('+1')}</b></div><div class="kv" style="font-size:.82em"><span>الخميس · ساعة هادئة</span><b>${n('+2')}</b></div></div>
+      <div class="fill"></div><button class="btn ghost" type="button" tabindex="-1">استعادة البطاقة على جهاز آخر</button></div>`,
+    delay:()=>`<div class="screen s-delay">${bar()}<div class="banner">طلبك متأخر دقيقتين عن الوقت المتوقع. نعتذر.</div>${mslot('delay','sorry','sway',true)}
       <span class="lbl">طلب</span><div class="num">${n(247)}</div><span class="pill"><i></i>قيد التحضير</span>
-      <div class="card"><small>الوقت المحدّث</small><span class="big">${n('1–3')} دقائق</span><div class="queue"><i class="ahead"></i><i class="me"></i></div><small>أمامك طلب واحد</small></div></div>`,
-    prayer:()=>`<div class="screen s-prayer"><span class="moon"></span><span class="stars"><i style="top:5em;right:2em"></i><i style="top:8em;right:5em"></i><i style="top:6.5em;left:5em"></i><i style="top:11em;left:2.2em"></i></span>${bar()}<div class="fill" style="flex:.5"></div>${mslot('white','sleep','bob')}
+      <div class="card"><small>الوقت المحدّث</small><span class="big">${n('1–3')} دقائق</span><div class="queue"><i class="ahead"></i><i class="me"></i></div><small>أمامك طلب واحد</small></div>
+      <div class="tag"><i></i>أُضيف ختم اعتذار إلى بطاقتك</div></div>`,
+    prayer:()=>`<div class="screen s-prayer"><span class="moon"></span><span class="stars"><i style="top:5em;right:2em"></i><i style="top:8em;right:5em"></i><i style="top:6.5em;left:5em"></i><i style="top:11em;left:2.2em"></i></span>${bar()}<div class="fill" style="flex:.5"></div>${mslot('white','sleep','sway')}
       <h3 class="h3">توقف مؤقت للصلاة</h3><p class="hint">سنستأنف بعد الصلاة، وطلبك محفوظ.</p>
-      <div class="card" style="color:var(--ink)"><small>طلب ${n(247)}</small><b>المؤقت متوقف</b></div><div class="fill"></div></div>`
+      <div class="card"><small>طلب ${n(247)}</small><b>المؤقت متوقف</b></div><div class="fill"></div></div>`,
+    offline:()=>`<div class="screen s-offline">${bar()}<div class="banner gray">لا يوجد اتصال. سنُحدّث الحالة عند عودته.</div>${mslot('offline','dash','',true)}
+      <span class="lbl">آخر حالة معروفة · قبل ${n(40)} ثانية</span><div class="num">${n(247)}</div><span class="pill"><i style="background:var(--ink-3);animation:none"></i>قيد التحضير</span>
+      <div class="card"><small>الوقت المتوقع يستمر محليًا</small><span class="big">${n('3–5')} دقائق</span></div>
+      <div class="ol">
+        <button class="ritem" type="button" tabindex="-1"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 5h16v11H8l-4 4z"/></svg></span><div><b>أرسل ${n(247)} برسالة نصية</b><small>إلى ${n('0500 000 000')} · يصلك النداء نصيًا</small></div></button>
+        <button class="ritem" type="button" tabindex="-1"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 9a15 15 0 0 1 20 0M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0"/><circle cx="12" cy="20" r="1"/></svg></span><div><b>اتصل بشبكة الفرع</b><small>امسح الرمز على الكاونتر</small></div></button>
+      </div></div>`
   };
   const STATES=[
-    {k:'claim',t:'الربط',c:'var(--sand-2)',d:'مسح ثم 3 أرقام وتأكيد.',note:'العميل يمسح الرمز على الكاونتر ويكتب رقم طلبه. بطاقة التأكيد تعرض عدد المشروبات ووقت الطلب لمنع الربط الخطأ.'},
-    {k:'wait',t:'الانتظار',c:'var(--sky)',d:'وقت متوقع وموقع في الطابور.',note:'الوقت المتوقع نطاق من بيانات الفرع. الشريط يبيّن الطلبات التي أمامك، والجملة الأخيرة تمنح العميل إذن الابتعاد.'},
-    {k:'near',t:'قبل الجاهزية',c:'var(--sun)',d:'تنبيه خفيف قبل النداء.',note:'عندما يبدأ التحضير يصل تنبيه خفيف، فيصل العميل مع الطلب لا بعده بدقيقتين.'},
-    {k:'call',t:'النداء',c:'var(--brand)',d:'الشاشة كلها بلون المنشأة.',note:'الشاشة كلها بلون المنشأة، ونبضات تتسع من المركز، ورنّة قصيرة. زرّان فقط، وإن لم يستجب العميل يبدأ سلّم التصعيد.'},
-    {k:'done',t:'بعد الاستلام',c:'var(--grass)',d:'تقييم بلمسة ومدة فعلية.',note:'المدة الفعلية تُعرض كما هي، والتقييم لمسة واحدة يُربط بزمن الانتظار في تقارير المدير.'},
-    {k:'delay',t:'تأخير',c:'var(--ember)',d:'اعتراف صريح ووقت محدّث.',note:'عند تجاوز الوقت المتوقع تقول الصفحة ذلك صراحة وتعرض وقتًا محدّثًا، ولا تخفي التأخير.'},
-    {k:'prayer',t:'إيقاف للصلاة',c:'var(--night)',d:'المؤقت متوقف والطلب محفوظ.',note:'زر واحد على لوحة الموظف يجمّد المؤقتات ويُعلم كل العملاء. مدة التوقف لا تُحسب في التقارير.'}
+    {k:'claim',t:'الربط',c:'var(--sand-2)',d:'اختيار من القائمة أو كتابة رقم مقاوم للخطأ.',note:'الصفحة تعرض آخر الطلبات غير المرتبطة في الفرع فيلمس العميل رقمه. عند الكتابة، الرقم الثالث مشتق من الأولين فيُرفض الرقم المقلوب فورًا.'},
+    {k:'wait',t:'الانتظار',c:'var(--wait)',d:'وقت متوقع وموقع في الطابور.',note:'الوقت المتوقع نطاق من بيانات الفرع. الشريط يبيّن الطلبات التي أمامك، وزر الزخرفة يفتح تسلية هادئة تختفي عند النداء.'},
+    {k:'game',t:'الزخرفة',c:'var(--near)',d:'تسلية بصرية تتوقف عند النداء.',note:'المس اللوحة داخل الجوال. كل لمسة تنعكس ثماني مرات بألوان المنشأة. لا نقاط ولا وقت ولا صوت.'},
+    {k:'near',t:'قبل الجاهزية',c:'var(--near)',d:'تنبيه خفيف قبل النداء.',note:'عندما يبدأ التحضير يصل تنبيه خفيف، فيصل العميل مع الطلب لا بعده بدقيقتين.'},
+    {k:'call',t:'النداء',c:'var(--brand)',d:'الشاشة كلها بلون المنشأة.',note:'الشاشة كلها بلون المنشأة، والجرس يهتز مع موجات صوت، ورنّة قصيرة. زرّان فقط، وإن لم يستجب العميل يبدأ سلّم التصعيد.'},
+    {k:'done',t:'بعد الاستلام',c:'var(--done)',d:'تقييم بلمسة وختم تلقائي.',note:'المدة الفعلية تُعرض كما هي، والتقييم لمسة واحدة يُربط بزمن الانتظار، ويُضاف الختم إلى البطاقة من الخادم عند تأكيد الاستلام.'},
+    {k:'review',t:'تقييم Google',c:'#4285F4',d:'رابط مباشر لصفحة المنشأة.',note:'زر يفتح صفحة تقييم المنشأة على خرائط Google مباشرة، ويُعرض للجميع دون فرز. الملاحظة الخاصة خيار إضافي لا بديل.'},
+    {k:'card',t:'البطاقة',c:'var(--done-deep)',d:'أختام بقيمة تتغيّر حسب الفرع.',note:'الختم مضاعف في الساعات الهادئة، وختم اعتذار عند كسر الوعد. البطاقة على جهاز العميل وتُستعاد عبر واتساب.'},
+    {k:'delay',t:'تأخير',c:'var(--delay)',d:'اعتراف صريح ووقت محدّث.',note:'عند تجاوز الوقت المتوقع تقول الصفحة ذلك صراحة وتعرض وقتًا محدّثًا، ويُضاف ختم اعتذار تلقائيًا.'},
+    {k:'prayer',t:'إيقاف للصلاة',c:'var(--pause)',d:'المؤقت متوقف والطلب محفوظ.',note:'زر واحد على لوحة الموظف يجمّد المؤقتات ويُعلم كل العملاء. مدة التوقف لا تُحسب في التقارير.'},
+    {k:'offline',t:'بلا اتصال',c:'var(--ink-3)',d:'آخر حالة معروفة وبدائل بلا بيانات.',note:'الصفحة تعرض آخر حالة والعدّ التنازلي يستمر محليًا. يمكن للعميل إرسال رقمه برسالة نصية ليصله النداء نصيًا، أو الاتصال بشبكة الفرع بمسح رمز.'}
   ];
-  const JOURNEY=['claim','wait','near','call','done'];
-  function renderPhone(el,k){el.style.setProperty('--brand',BRAND.color);el.innerHTML=SCREENS[k]();}
+  const JOURNEY=['claim','wait','game','near','call','done','review','card'];
+  function renderPhone(el,k){el.style.setProperty('--brand',BRAND.color);el.innerHTML=SCREENS[k]();if(k==='game')initGame(el.querySelector('[data-game]'),el);}
 
   /* ---------- Journey rail ---------- */
   function renderRail(){
@@ -642,7 +786,7 @@ h1,h2,h3,h4,p{margin:0}
     try{
       actx=actx||new (window.AudioContext||window.webkitAudioContext)();
       const t0=actx.currentTime+.02;
-      [659.25,783.99,1046.5].forEach((f,i)=>{const o=actx.createOscillator(),g=actx.createGain();o.type='triangle';o.frequency.value=f;const t=t0+i*.15;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.22,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+.42);o.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+.45);});
+      [659.25,783.99,1046.5].forEach((f,i)=>{const o=actx.createOscillator(),g=actx.createGain();o.type='triangle';o.frequency.value=f;const t=t0+i*.15;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.2,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+.42);o.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+.45);});
     }catch(e){}
   }
   function setDemo(i,fromUser){
@@ -657,14 +801,63 @@ h1,h2,h3,h4,p{margin:0}
   document.getElementById('next').addEventListener('click',()=>setDemo(cur+1,true));
   document.getElementById('prev').addEventListener('click',()=>setDemo(cur-1,true));
 
+  /* ---------- Geometry game ---------- */
+  function hexToRgb(h){const v=parseInt(h.slice(1),16);return [(v>>16)&255,(v>>8)&255,v&255];}
+  function mix(a,b,t){return a.map((x,i)=>Math.round(x+(b[i]-x)*t));}
+  function palette(){
+    const b=hexToRgb(BRAND.color),w=[255,255,255],k=[28,27,26],gold=hexToRgb('#C99A2E');
+    return [mix(b,w,.15),mix(b,w,.55),gold,mix(b,k,.35)].map(c=>`rgb(${c.join(',')})`);
+  }
+  function makeGame(canvas){
+    const R=6,S=16;const ctx=canvas.getContext('2d');
+    let cells=Array.from({length:R},()=>new Array(S).fill(0));
+    const size=canvas.width;const cx=size/2,cy=size/2,rmax=size*.46,rmin=size*.07;
+    function draw(){
+      const pal=palette();
+      ctx.clearRect(0,0,size,size);
+      ctx.fillStyle='#fff';ctx.fillRect(0,0,size,size);
+      for(let r=0;r<R;r++){const r0=rmin+(rmax-rmin)*r/R,r1=rmin+(rmax-rmin)*(r+1)/R-size*.008;
+        for(let s=0;s<S;s++){const a0=(s/S)*Math.PI*2-Math.PI/2+.012,a1=((s+1)/S)*Math.PI*2-Math.PI/2-.012;
+          ctx.beginPath();ctx.arc(cx,cy,r1,a0,a1);ctx.arc(cx,cy,r0,a1,a0,true);ctx.closePath();
+          const v=cells[r][s];ctx.fillStyle=v?pal[(v-1)%pal.length]:'#F4F2ED';ctx.fill();}}
+      ctx.beginPath();ctx.arc(cx,cy,rmin-size*.012,0,Math.PI*2);ctx.fillStyle=pal[2];ctx.fill();
+    }
+    function sym(r,s){const out=[];for(let k=0;k<8;k++){out.push([r,(s+2*k)%S]);out.push([r,((S-1-s)+2*k+S)%S]);}return out;}
+    let last=null;
+    function paint(x,y,drag){
+      const rect=canvas.getBoundingClientRect();const px=(x-rect.left)*size/rect.width,py=(y-rect.top)*size/rect.height;
+      const d=Math.hypot(px-cx,py-cy);if(d<rmin||d>rmax)return;
+      const r=Math.min(R-1,Math.floor((d-rmin)/((rmax-rmin)/R)));let a=Math.atan2(py-cy,px-cx)+Math.PI/2;if(a<0)a+=Math.PI*2;const s=Math.floor(a/(Math.PI*2)*S)%S;
+      const key=r+':'+s;if(drag&&last===key)return;last=key;
+      const nv=drag?(cells[r][s]||1):((cells[r][s]+1)%4);
+      sym(r,s).forEach(([rr,ss])=>cells[rr][ss]=nv);draw();
+    }
+    let down=false;
+    canvas.addEventListener('pointerdown',e=>{down=true;last=null;paint(e.clientX,e.clientY,false);try{canvas.setPointerCapture(e.pointerId);}catch(_){}});
+    canvas.addEventListener('pointermove',e=>{if(down)paint(e.clientX,e.clientY,true);});
+    canvas.addEventListener('pointerup',()=>{down=false;});canvas.addEventListener('pointercancel',()=>{down=false;});
+    function random(){cells=cells.map(row=>row.map(()=>0));for(let r=0;r<R;r++){const s=Math.floor(Math.random()*S);const v=1+Math.floor(Math.random()*3);if(Math.random()<.85)sym(r,s).forEach(([rr,ss])=>cells[rr][ss]=v);if(Math.random()<.5){const s2=(s+3)%S;sym(r,s2).forEach(([rr,ss])=>cells[rr][ss]=(v%3)+1);}}draw();}
+    function clear(){cells=cells.map(row=>row.map(()=>0));draw();}
+    random();
+    return {draw,random,clear};
+  }
+  function initGame(canvas,root){
+    if(!canvas)return;const g=makeGame(canvas);
+    const nb=root.querySelector('[data-gnew]'),cb=root.querySelector('[data-gclear]');
+    if(nb)nb.addEventListener('click',g.random);if(cb)cb.addEventListener('click',g.clear);
+  }
+  const bigGame=makeGame(document.getElementById('bigcanvas'));
+  document.getElementById('g-new').addEventListener('click',bigGame.random);
+  document.getElementById('g-clear').addEventListener('click',bigGame.clear);
+
   /* ---------- QR ---------- */
   function qr(seed){
     const N=25;let s=seed;const rnd=()=>(s=(s*9301+49297)%233280)/233280;
     let r='';
-    const finder=(x,y)=>`<rect x="${x}" y="${y}" width="7" height="7" rx="1.6" fill="#18171B"/><rect x="${x+1}" y="${y+1}" width="5" height="5" rx="1.1" fill="#fff"/><rect x="${x+2}" y="${y+2}" width="3" height="3" rx=".8" fill="#18171B"/>`;
+    const finder=(x,y)=>`<rect x="${x}" y="${y}" width="7" height="7" rx="1.2" fill="#1C1B1A"/><rect x="${x+1}" y="${y+1}" width="5" height="5" rx=".8" fill="#fff"/><rect x="${x+2}" y="${y+2}" width="3" height="3" rx=".5" fill="#1C1B1A"/>`;
     for(let y=0;y<N;y++)for(let x=0;x<N;x++){
       const inF=(x<8&&y<8)||(x>N-9&&y<8)||(x<8&&y>N-9);const inC=x>8&&x<16&&y>8&&y<16;
-      if(!inF&&!inC&&rnd()>.52)r+=`<rect x="${x}" y="${y}" width="1" height="1" rx=".3" fill="#18171B"/>`;
+      if(!inF&&!inC&&rnd()>.52)r+=`<rect x="${x}" y="${y}" width="1" height="1" rx=".2" fill="#1C1B1A"/>`;
     }
     return `<svg viewBox="0 0 ${N} ${N}" aria-hidden="true">${r}${finder(0,0)}${finder(N-7,0)}${finder(0,N-7)}</svg><span class="logo" style="--brand:${BRAND.color}">${initial()}</span>`;
   }
@@ -676,17 +869,17 @@ h1,h2,h3,h4,p{margin:0}
     const picked='<button class="o-btn ok" type="button" tabindex="-1">تم الاستلام</button>';
     document.getElementById('tablet').innerHTML=`<div class="board">
       <div class="b-head"><div class="bar"><span class="logo" style="background:${BRAND.color}">${initial()}</span><div><b>${esc(BRAND.name)}</b><small>${esc(BRAND.branch)} · ${esc(BRAND.station)}</small></div></div>
-        <div class="b-actions"><button class="b-btn ink" type="button" tabindex="-1">+ طلب جديد</button><button class="b-btn" type="button" tabindex="-1"><span class="k" style="background:var(--ember)"></span>وضع الذروة</button><button class="b-btn" type="button" tabindex="-1"><span class="k" style="background:var(--night)"></span>إيقاف للصلاة</button></div></div>
+        <div class="b-actions"><button class="b-btn ink" type="button" tabindex="-1">+ طلب جديد</button><button class="b-btn" type="button" tabindex="-1"><span class="k" style="background:var(--delay)"></span>وضع الذروة</button><button class="b-btn" type="button" tabindex="-1"><span class="k" style="background:var(--pause)"></span>إيقاف للصلاة</button></div></div>
       <div class="b-cols">
         <div class="b-col"><h4>قيد التحضير <span>4</span></h4>
           ${ord(253,'05:40',true,'c-watch','يشاهد الصفحة',ready)}
-          ${ord(252,'03:10',false,'c-watch','يشاهد الصفحة',ready)}
-          ${ord(254,'01:25',false,'c-none','لم يرتبط بالصفحة',ready)}
+          ${ord(252,'03:10',false,'c-conf','تعارض ربط · جهازان',`<div class="o-acts"><button class="o-btn sec" type="button" tabindex="-1">إعادة الربط</button>${ready}</div>`)}
+          ${ord(254,'01:25',false,'c-none','لم يرتبط بالصفحة',`<div class="o-acts"><button class="o-btn sec" type="button" tabindex="-1">عرض رمز</button>${ready}</div>`)}
           ${ord(255,'00:40',false,'c-watch','يشاهد الصفحة',ready)}
         </div>
         <div class="b-col"><h4>جاهز · بانتظار العميل <span>3</span></h4>
           ${ord(241,'04:05',true,'c-noresp','لم يستجب',`<div class="o-acts"><button class="o-btn sec" type="button" tabindex="-1">إعادة النداء</button>${picked}</div>`,'alert')}
-          <div class="o-sub" style="margin-top:-6px;padding-inline:6px">وصله: الصفحة، الإشعار. نداء صوتي للطلب ${n(241)}.</div>
+          <div class="o-sub" style="margin-top:-6px;padding-inline:6px">وصله: الصفحة، الإشعار، رسالة نصية. نداء صوتي للطلب ${n(241)}.</div>
           ${ord(247,'01:20',false,'c-way','في الطريق',picked)}
           ${ord(244,'02:30',false,'c-step','سيتأخر قليلًا',picked)}
         </div>
@@ -703,19 +896,19 @@ h1,h2,h3,h4,p{margin:0}
   function renderMgr(){
     const el=document.getElementById('mgr-phone');el.style.setProperty('--brand',BRAND.color);
     el.innerHTML=`<div class="screen" style="background:var(--cream);gap:.6em;align-items:stretch">${bar()}
-      <div style="text-align:start"><div class="h3" style="font-size:1.4em">اليوم</div><small style="color:var(--ink-2);font-size:.8em">الأربعاء ${n(24)} سبتمبر</small></div>
+      <div style="text-align:start"><div class="h3" style="font-size:1.3em">اليوم</div><small style="color:var(--ink-2);font-size:.78em">الأربعاء ${n(24)} سبتمبر</small></div>
       <div class="mtiles">
         <div class="mt"><small>الطلبات</small><b>${n(487)}</b></div>
         <div class="mt"><small>الوسيط</small><b>${n('5:10')}</b></div>
         <div class="mt"><small>P90</small><b>${n('9:40')}</b><em>▲ ${n('0:50')} عن الأسبوع الماضي</em></div>
         <div class="mt"><small>غير مستلم</small><b>${n(2)}</b></div>
       </div>
-      <div class="now">الآن: ${n(6)} طلبات قيد التحضير، أطولها ${n(8)} دقائق.</div>
+      <div class="now">الآن: ${n(6)} طلبات قيد التحضير، أطولها ${n(8)} دقائق. الساعة هادئة: الأختام مضاعفة.</div>
       <div class="rec"><b>توصية</b><span>بين ${n(5)} و${n(6)} مساءً يرتفع زمن التحضير ${n('40%')} مع نفس عدد الطلبات. الاختناق في التجهيز. جرّب تفعيل وضع الذروة تلقائيًا في هذه الساعة.</span><a href="#heat">لماذا؟</a></div>
     </div>`;
     const days=['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
     const hrs=[...Array(16)].map((_,i)=>i+7);
-    const colors=['#EFE9DB','#F9D98A','#F5B25C','#EE8A3C','#D9602A'];
+    const colors=['#E9E5DC','#EBD39A','#D9A85B','#C4763B','#9E4A24'];
     let h='<span></span>'+hrs.map(x=>`<span class="h">${x%2?'':x}</span>`).join('');
     days.forEach((d,di)=>{
       h+=`<span class="d">${d}</span>`;
@@ -736,53 +929,55 @@ h1,h2,h3,h4,p{margin:0}
     tv.innerHTML=`<div class="tv-main"><h4>جاهز للاستلام</h4>
       <div class="tv-tiles"><span class="tv-tile new">${n(247)}</span><span class="tv-tile">${n(244)}</span><span class="tv-tile">${n(241)}</span><span class="tv-tile">${n(239)}</span></div>
       <div class="tv-foot"><div class="qr">${qr(11)}</div><span>امسح الرمز لمتابعة طلبك من الجوال · ${esc(BRAND.station)}</span></div></div>
-      <div class="tv-side"><h5>قيد التحضير</h5>${[248,249,250,252,253,254].map(x=>`<span>${n(x)}</span>`).join('')}${mslot('white','look','bob drift')}</div>`;
+      <div class="tv-side"><h5>قيد التحضير</h5>${[248,249,250,252,253,254].map(x=>`<span>${n(x)}</span>`).join('')}</div>`;
   }
 
   /* ---------- Tokens ---------- */
   const SW=[
-    ['سماء','الانتظار','#7EB8DE'],['شمس','قبل الجاهزية','#F7D84E'],['لون المنشأة','النداء، يُحقن لكل منشأة',null],
-    ['عشب','بعد الاستلام','#62B044'],['جمر','التأخير، دلالي فقط','#EE8436'],['ليل','إيقاف الصلاة','#262447'],
-    ['كريمي','خلفية التطبيق','#F8F5EC'],['رمل','البطاقات والصفوف','#EFE9DB'],['حبر','الأزرار والنص','#18171B']
+    ['انتظار','حالة الانتظار','#4E6E8E'],['اقتراب','قبل الجاهزية','#B98A2C'],['لون المنشأة','النداء، يُحقن لكل منشأة',null],
+    ['استلام','بعد الاستلام','#3E7A5E'],['تأخير','دلالي فقط','#B5552D'],['توقف','إيقاف الصلاة','#2B2F45'],
+    ['الجرس','لون الشخصية الافتراضي','#C99A2E'],['كريمي','خلفية التطبيق','#F4F2ED'],['رمل','البطاقات والأعمدة','#E9E5DC'],['حبر','الأزرار والنص','#1C1B1A']
   ];
   function renderTokens(){
-    document.getElementById('swgrid').innerHTML=SW.map(([nm,role,hex])=>{const h=hex||BRAND.color;return `<div class="sw-card"><div class="sw-chip" style="background:${h};${h==='#F8F5EC'?'box-shadow:inset 0 0 0 1px var(--sand-2)':''}"></div><b>${nm}</b><span>${role}</span><code>${h.toUpperCase()}</code></div>`;}).join('');
+    document.getElementById('swgrid').innerHTML=SW.map(([nm,role,hex])=>{const h=hex||BRAND.color;return `<div class="sw-card"><div class="sw-chip" style="background:${h};${h==='#F4F2ED'?'box-shadow:inset 0 0 0 1px var(--sand-2)':''}"></div><b>${nm}</b><span>${role}</span><code>${h.toUpperCase()}</code></div>`;}).join('');
     const ST=[
-      ['yellow','look','drift','الانتظار','عينان تتابعان بهدوء','var(--sky-soft)'],
-      ['blue','wide','','قبل الجاهزية','عينان واسعتان','var(--sun-soft)'],
-      ['white','wide','hop','النداء','قفزة قصيرة متكررة',null],
-      ['pink','heart','','بعد الاستلام','عينان بشكل قلب','var(--grass-soft)'],
-      ['purple','squint','','التأخير','تعبير اعتذار','var(--ember-soft)'],
-      ['white','sleep','','إيقاف الصلاة','عينان مغمضتان','var(--night)']
+      ['white','look','sway drift','الانتظار','جرس ساكن، عينان تتابعان','var(--wait)','#fff'],
+      ['bell','wide','sway','قبل الجاهزية','عينان مرفوعتان','var(--near-soft)','var(--ink)'],
+      ['white','wide','ring-anim','النداء','يهتز مع موجات صوت',null,'#fff'],
+      ['done','happy','sway','بعد الاستلام','عينان مبتسمتان','var(--done-soft)','var(--ink)'],
+      ['delay','sorry','sway','التأخير','حاجبان معتذران','var(--delay-soft)','var(--ink)'],
+      ['white','sleep','sway','إيقاف الصلاة','عينان مغمضتان','var(--pause)','#fff'],
+      ['offline','dash','','بلا اتصال','حدود منقّطة','var(--sand)','var(--ink)']
     ];
-    document.getElementById('states').innerHTML=ST.map(([c,e,cls,t,d,bg])=>{const b=bg||BRAND.color;const dark=(b==='var(--night)'||!bg);return `<div class="st" style="background:${b};color:${dark?'#fff':'var(--ink)'}"><div class="m-slot ${cls==='hop'?'hop':'bob'} ${cls==='drift'?'drift':''}">${mascot(c,e)}</div><b>${t}</b><span>${d}</span></div>`;}).join('');
+    document.getElementById('states').innerHTML=ST.map(([c,e,cls,t,d,bg,fg])=>`<div class="st" style="background:${bg||BRAND.color};color:${fg}"><div class="m-slot ${cls}">${mascot(c,e)}</div><b>${t}</b><span>${d}</span></div>`).join('');
   }
-  const li=(bg,fg,mark,txt)=>`<li><i style="background:${bg};color:${fg}">${mark}</i><span>${txt}</span></li>`;
+  const li=(bg,fg,mark,txt)=>`<li><i style="background:${bg};color:${fg}">${mark}</i><div><b style="font-weight:500">${txt}</b></div></li>`;
   document.getElementById('take').innerHTML=[
-    'كتل لونية كبيرة بزوايا مستديرة، ولكل حالة لون واحد يملأ الشاشة.',
-    'شخصية ناعمة الملمس تعبّر عن الحالة بعينيها فقط، بلا كلام.',
-    'خلفية كريمية دافئة وبطاقات رملية وأزرار سوداء ممتلئة.',
-    'خط عناوين ممتلئ ومستدير للأرقام وعبارة النداء.',
-    'شارات صغيرة ملونة فوق العناوين لتحديد القسم.'
-  ].map(t=>li('var(--grass)','#fff','+',t)).join('');
+    'الجرس هو أداة النداء نفسها: يقول ما يفعله المنتج بلا شرح.',
+    'شكل هندسي بسيط بلا فرو ولا ملمس، يليق بمقهى وبعيادة وبمركز خدمة.',
+    'يعبّر بعينين صغيرتين وميلان خفيف فقط، فلا يبدو طفوليًا.',
+    'يهتز عند النداء، وهي الحركة الوحيدة الواضحة في كل التجربة.',
+    'أبيض فوق لون المنشأة، فيعمل مع أي هوية.'
+  ].map(t=>li('var(--done)','#fff','+',t)).join('');
   document.getElementById('skip').innerHTML=[
-    'لا نقاط ولا سلاسل أيام ولا مجتمع. العميل ينتظر دقائق ولا يحتاج لعبة.',
-    'لا عبارات حماسية أو عامية. الشخصية تعبّر بالوجه والنص يبقى محايدًا.',
-    'لا شخصيات في لوحة الموظف أو تقارير المدير. هذه أدوات عمل.',
-    'لا تسجيل ولا أسئلة تعريفية في البداية. العميل يدخل برقم طلبه فقط.',
+    'لا نقاط ولا مستويات ولا سلاسل أيام. الولاء أختام واضحة بقواعد تشغيلية.',
+    'لا عبارات حماسية أو عامية. النص محايد والجرس يعبّر بوجهه.',
+    'لا شخصية في لوحة الموظف أو تقارير المدير.',
+    'لا فرز للتقييمات: زر Google يظهر للجميع، والملاحظة الخاصة خيار إضافي.',
     'لا تطبيق يُحمَّل. كل شيء من المتصفح.'
-  ].map(t=>li('var(--bubble)','#fff','−',t)).join('');
+  ].map(t=>li('var(--ink)','#fff','−',t)).join('');
 
   /* ---------- Brand kit ---------- */
   const swEl=document.getElementById('swatches');
   swEl.innerHTML=COLORS.map((c,i)=>`<button class="swatch" type="button" id="sw-${i}" style="background:${c.h}" aria-label="${c.n}" aria-pressed="${i===0}" data-h="${c.h}"></button>`).join('');
   swEl.addEventListener('click',e=>{const b=e.target.closest('.swatch');if(!b)return;BRAND.color=b.dataset.h;swEl.querySelectorAll('.swatch').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));renderAll();});
-  document.getElementById('cafe-name').addEventListener('input',e=>{BRAND.name=e.target.value.trim()||'مقهى';renderAll();});
+  document.getElementById('cafe-name').addEventListener('input',e=>{BRAND.name=e.target.value.trim()||'المنشأة';renderAll();});
   document.getElementById('station').addEventListener('change',e=>{BRAND.station=e.target.value;renderAll();});
   document.getElementById('show-mascot').addEventListener('change',e=>{BRAND.mascot=e.target.checked;renderAll();});
 
   function renderAll(){
     document.documentElement.style.setProperty('--brand',BRAND.color);
+    bigGame.draw();
     document.querySelectorAll('[data-screen]').forEach(p=>renderPhone(p,p.dataset.screen));
     renderRail();setDemo(cur,false);renderTablet();renderMgr();renderTV();renderTokens();
     document.getElementById('qr-kit').innerHTML=qr(7);

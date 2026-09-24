@@ -149,6 +149,8 @@ model Order {
   source        OrderSource @default(TABLET) // TABLET | POS | API
   kind          OrderKind   @default(ORDER)  // ORDER (طلب) | TICKET (دور): نفس الآلة، تختلف التسميات وزر الموظف
   unclaimedReason String?
+  claimDeviceKeys String[]                    // أجهزة ربطت هذا الطلب؛ أكثر من واحد = تعارض معلَّم
+  artwork       Bytes?                        // زخرفة العميل (PNG صغير) اختياري
   events        OrderEvent[]
   channels      Channel[]
   attempts      NotificationAttempt[]
@@ -189,6 +191,27 @@ model NotificationAttempt {
   result    String           // SENT | DELIVERED | FAILED | SKIPPED
   error     String?
   order     Order    @relation(fields: [orderId], references: [id])
+}
+
+model LoyaltyCard {         // بطاقة على جهاز العميل، معرّف موقّع في المتصفح
+  id         String   @id @default(cuid())
+  branchId   String
+  deviceKey  String   @unique          // hash لمعرّف عشوائي في localStorage، يُوقَّع من الخادم
+  stamps     Float    @default(0)
+  redeemed   Int      @default(0)
+  waPhone    String?                   // مشفّر، اختياري للاستعادة
+  updatedAt  DateTime @updatedAt
+  entries    StampEntry[]
+}
+
+model StampEntry {          // كل ختم حدث خادمي مرتبط بطلب
+  id        String   @id @default(cuid())
+  cardId    String
+  orderId   String   @unique
+  value     Float                      // 1, 2, 0.5, 1 (اعتذار)
+  reason    String                     // PICKUP | QUIET_HOUR | PROMISE_BROKEN | FAST_PICKUP
+  at        DateTime @default(now())
+  card      LoyaltyCard @relation(fields: [cardId], references: [id])
 }
 
 model Feedback {
@@ -232,6 +255,42 @@ CREATED ──(staff: preparing, اختياري)──▶ PREPARING ──(staff
 
 - `customerState` مستقل عن `status` ويُحدَّث بردود العميل، ويظهر كشريحة على البطاقة.
 - `PRAYER_PAUSE` حدث على مستوى الفرع يجمّد المؤقتات: عند الاستئناف تُضاف مدة التوقف لكل ETA نشط، وتُستثنى من حساب زمن التحضير في التقارير.
+
+## 6.1 توليد الأرقام المقاومة للخطأ (بلا POS)
+
+عندما يولّد دورك رقم الطلب: رقمان متسلسلان `ab` (00–99 يدوران يوميًا) ورقم تحقق `c = (3a + 7b) mod 10`. النتيجة رقم من ثلاث خانات يبدو عاديًا، لكن قلب الخانتين الأوليين أو الخطأ في خانة واحدة ينتج رقمًا فاشلًا في التحقق فيُرفض على الصفحة فورًا قبل أي طلب للخادم. لتفادي التكرار خلال اليوم يُستخدم بادئة ساعة داخلية غير معروضة. مع POS تُعرض أرقام POS كما هي ويُعتمد على قائمة الاختيار والتأكيد.
+
+## 6.2 الربط: القائمة، النافذة، التعارض
+
+- `GET /c/:branchSlug/recent` يعيد الطلبات غير المرتبطة خلال آخر 60 دقيقة (الرقم، عدد الأصناف، منذ متى)، بلا أي بيانات شخصية.
+- `POST /c/:branchSlug/claim {number, deviceKey}`: يُقبل الربط الأول؛ الربط الثاني من جهاز مختلف يُقبل مؤقتًا ويضيف المفتاح إلى `claimDeviceKeys` ويُصدر حدث `CLAIM_CONFLICT` للوحة الموظف. زر "إعادة الربط" على البطاقة يفصل الأجهزة غير المختارة.
+- زر "عرض رمز" على التابلت: يفتح `token` الطلب كرمز QR كبير 15 ثانية؛ مسحه يربط الجهاز مباشرة بلا رقم.
+
+## 6.3 الأختام (Loyalty)
+
+- تُصدر فقط في معالج انتقال `PICKED_UP` على الخادم: `value = base(1) × quietHour(×2 إن كانت الساعة ضمن الساعات الهادئة للفرع) + fastPickup(+0.5 إن كان `pickedUpAt − notifiedAt ≤ 60s`)`.
+- عند حدث `PROMISE_BROKEN` (تجاوز `etaHigh` الأول) يُضاف `+1` مرة واحدة لكل طلب.
+- الصرف: `POST /o/:token/redeem` يولّد رمزًا من 4 أرقام صالحًا 10 دقائق، والموظف يدخله على اللوحة.
+- `deviceKey` عشوائي 128-بت في `localStorage`، ويُرسل مع كل طلب من الصفحة؛ الخادم يوقّعه ولا يقبل بطاقة بلا توقيع.
+
+## 6.4 تقييم Google
+
+- `Branch.settings.googlePlaceId` يُدخله المدير مرة واحدة.
+- الصفحة تعرض بعد `PICKED_UP` رابط `https://search.google.com/local/writereview?placeid=<id>` كزر. تُسجَّل النقرة كحدث `REVIEW_CLICK` فقط.
+- لا شرط على التقييم الداخلي لإظهار الزر، ولا ختم مقابل النقرة.
+
+## 6.5 الزخرفة (Canvas)
+
+- شبكة قطبية 6 × 16، حالة الخلايا مصفوفة صغيرة في الذاكرة، تعكس كل لمسة على 16 موضعًا (8 دورات × مرآة).
+- الألوان: `mix(brand, white, .15)`, `mix(brand, white, .55)`, `gold`, `mix(brand, ink, .35)`.
+- عند حدث `READY` تُلغى اللعبة فورًا وتُعرض شاشة النداء. عند `PICKED_UP` تُحوَّل اللوحة إلى PNG صغير (≤ 20KB) وتُرسل اختياريًا إلى `artwork`.
+
+## 6.6 انقطاع الاتصال
+
+- Service Worker يخزّن هيكل صفحة العميل وآخر JSON للطلب. عند `offline` تُعرض آخر حالة مع طابعها الزمني والعدّ التنازلي محليًا؛ عند العودة يُطلب snapshot.
+- **الربط برسالة نصية (V2):** رقم مزوّد SMS وارد لكل منشأة (أو رقم موحّد مع كود منشأة). الرسالة الواردة `247` تُطابق آخر طلب بهذا الرقم في الفرع خلال 60 دقيقة وتُسجّل قناة `SMS` للطلب. زر "أرسل 247 برسالة نصية" يفتح تطبيق الرسائل برسالة جاهزة.
+- **شبكة الفرع (V2):** رمز `WIFI:` على الكاونتر، وصفحة Captive Portal تحوّل إلى `/c/:branchSlug`.
+- **لوحة الموظف:** طابور محلي للضغطات في IndexedDB مع إعادة إرسال مرتبة عند العودة ومؤشر "غير متصل".
 
 ## 7. سلّم التصعيد (Escalation Ladder)
 
@@ -279,7 +338,15 @@ POST   /staff/branch/pause           {kind: "PRAYER"}   / POST /staff/branch/res
 GET    /staff/board/stream           # SSE: كل تغييرات الفرع
 GET    /staff/board                  # لقطة أولية
 
-POST   /c/:branchSlug/claim          {number} → {token, preview}   # ربط العميل، محدود بمعدّل + نافذة 60 دقيقة
+GET    /c/:branchSlug/recent         # آخر الطلبات غير المرتبطة (رقم، عدد أصناف، منذ متى)
+POST   /c/:branchSlug/claim          {number, deviceKey} → {token, preview}   # نافذة 60 دقيقة + تعارض معلَّم
+POST   /o/:token/artwork             # PNG صغير للزخرفة (اختياري)
+POST   /o/:token/redeem              # رمز صرف المكافأة (4 أرقام، 10 دقائق)
+GET    /o/:token/card                # بطاقة الولاء لهذا الجهاز
+POST   /staff/orders/:id/reclaim     {keepDeviceKey}   # حل تعارض الربط
+POST   /staff/orders/:id/show-qr     # يعيد token لعرضه كرمز على التابلت
+POST   /staff/redeem                 {code}
+POST   /sms/inbound                  # webhook من مزوّد SMS (V2)
 GET    /o/:token                     # حالة الطلب (JSON)
 GET    /o/:token/stream              # SSE للطلب الواحد
 POST   /o/:token/channels            {kind: "WEBPUSH", subscription}

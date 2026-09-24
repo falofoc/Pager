@@ -1,44 +1,46 @@
 /* Dorak design tokens — source of truth for the web app (Tailwind theme reads from these). */
 :root {
-  /* State colors: each customer-facing state owns one field color */
-  --sky: #7EB8DE;        /* waiting */
-  --sky-deep: #4F97CC;
-  --sky-soft: #D6EAF6;
-  --sun: #F7D84E;        /* about to be ready */
-  --sun-soft: #FBEBA6;
-  --bubble: #EC6EA8;     /* default brand / call when a café has no color */
-  --bubble-soft: #F9D5E6;
-  --grass: #62B044;      /* picked up */
-  --grass-soft: #D3EBC3;
-  --plum: #8E6FE0;
-  --night: #262447;      /* prayer pause */
-  --ember: #EE8436;      /* delay (semantic, never a brand color) */
-  --ember-soft: #FFE1C8;
+  /* State colors: each customer-facing state owns one field color (muted, professional) */
+  --wait: #4E6E8E;       /* waiting: steel blue */
+  --wait-soft: #DCE5EE;
+  --wait-deep: #3B5872;
+  --near: #B98A2C;       /* about to be ready: ochre */
+  --near-soft: #F1E6C9;
+  --done: #3E7A5E;       /* picked up: sage green */
+  --done-soft: #DCEBE2;
+  --done-deep: #2E5F48;
+  --delay: #B5552D;      /* delay: terracotta. Semantic only, never a brand color */
+  --delay-soft: #F3DDD2;
+  --pause: #2B2F45;      /* prayer pause: night navy */
 
-  /* Neutrals: warm, biased toward the sand of the reference */
-  --cream: #F8F5EC;      /* app background */
-  --sand: #EFE9DB;       /* list rows, inactive cards */
-  --sand-2: #E4DCC8;
-  --ink: #18171B;        /* primary buttons, text */
-  --ink-2: #5E594F;
-  --ink-3: #8E877A;
+  /* Neutrals: warm, low saturation */
+  --cream: #F4F2ED;      /* app background */
+  --sand: #E9E5DC;       /* list rows, inactive cards, board columns */
+  --sand-2: #D9D3C6;
+  --ink: #1C1B1A;        /* primary buttons, text */
+  --ink-2: #5A5750;
+  --ink-3: #8A857B;
   --white: #FFFFFF;
 
-  /* Per-tenant, injected at runtime from Branch.brand.color */
-  --brand: var(--bubble);
+  /* Mascot (the bell) */
+  --bell: #C99A2E;
+  --bell-deep: #9A7320;
+
+  /* Per-tenant, injected at runtime from Branch.brand.color. Must pass 3:1 against white. */
+  --brand: #1F5F73;
   --on-brand: #FFFFFF;
 
   /* Shape */
-  --r-block: 40px;       /* marketing color blocks */
-  --r-phone-card: 22px;  /* cards inside screens */
+  --r-block: 32px;       /* marketing color blocks */
+  --r-card: 18px;        /* cards inside screens */
   --r-pill: 999px;
 
   /* Type */
-  --f-display: "Baloo Bhaijaan 2", "Readex Pro", system-ui, sans-serif;
-  --f-body: "Readex Pro", "Segoe UI", Tahoma, system-ui, sans-serif;
+  --f-display: "Almarai", "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, system-ui, sans-serif;
 
   /* Motion */
-  --ease-soft: cubic-bezier(.34, 1.56, .64, 1);  /* bouncy, for the call moment only */
+  --ease-soft: cubic-bezier(.34, 1.4, .64, 1);  /* the bell ring only */
   --ease-calm: cubic-bezier(.4, 0, .2, 1);
   --t-state: 420ms;
 }
