@@ -1,0 +1,11 @@
+{
+  "name": "دورك",
+  "short_name": "دورك",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F4F2ED",
+  "theme_color": "#4E6E8E",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

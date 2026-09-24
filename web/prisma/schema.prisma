@@ -1,0 +1,250 @@
+// دورك — نموذج البيانات
+// التشغيل المحلي على SQLite. للإنتاج: غيّر provider إلى "postgresql" وحدّث DATABASE_URL.
+// الحقول النصية التي تحمل JSON (settings, claimKeys, meta) متوافقة مع المزوّدين.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Tenant {
+  id        String               @id @default(cuid())
+  name      String
+  createdAt DateTime             @default(now())
+  users     User[]
+  branches  Branch[]
+  settings  IntegrationSetting[]
+  cards     LoyaltyCard[]
+}
+
+model User {
+  id           String    @id @default(cuid())
+  tenantId     String
+  email        String    @unique
+  name         String
+  passwordHash String
+  role         String    @default("OWNER") // OWNER | MANAGER
+  createdAt    DateTime  @default(now())
+  tenant       Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  sessions     Session[]
+}
+
+model Session {
+  id        String   @id // sha256 of the cookie token
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Branch {
+  id           String    @id @default(cuid())
+  tenantId     String
+  slug         String    @unique
+  name         String
+  timezone     String    @default("Asia/Riyadh")
+  brandColor   String    @default("#1F5F73")
+  mode         String    @default("ORDER") // ORDER | TICKET
+  numbering    String    @default("CHECKSUM") // CHECKSUM | MANUAL
+  numberCursor Int       @default(0)
+  status       String    @default("OPEN") // OPEN | PAUSED
+  pausedAt     DateTime?
+  joinCode     String    @unique
+  tvKey        String    @unique
+  settings     String    @default("{}")
+  createdAt    DateTime  @default(now())
+  tenant       Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  stations     Station[]
+  devices      Device[]
+  orders       Order[]
+}
+
+model Station {
+  id       String @id @default(cuid())
+  branchId String
+  name     String
+  sort     Int    @default(0)
+  branch   Branch @relation(fields: [branchId], references: [id], onDelete: Cascade)
+}
+
+model Device {
+  id         String    @id @default(cuid())
+  branchId   String
+  stationId  String?
+  label      String
+  tokenHash  String    @unique
+  lastSeenAt DateTime?
+  revokedAt  DateTime?
+  createdAt  DateTime  @default(now())
+  branch     Branch    @relation(fields: [branchId], references: [id], onDelete: Cascade)
+}
+
+model Order {
+  id              String                @id @default(cuid())
+  branchId        String
+  stationId       String?
+  number          String
+  token           String                @unique
+  kind            String                @default("ORDER") // ORDER | TICKET
+  summary         String?
+  itemCount       Int?
+  status          String                @default("CREATED") // CREATED | PREPARING | READY | PICKED_UP | UNCLAIMED | CANCELLED
+  customerState   String                @default("NONE") // NONE | ON_MY_WAY | STEPPED_OUT | IN_CAR | WRONG_ORDER
+  noResponse      Boolean               @default(false)
+  dayKey          String
+  queueAtCreate   Int                   @default(0)
+  createdAt       DateTime              @default(now())
+  preparingAt     DateTime?
+  readyAt         DateTime?
+  notifiedAt      DateTime?
+  ackAt           DateTime?
+  pickedUpAt      DateTime?
+  closedAt        DateTime?
+  pausedSec       Int                   @default(0)
+  etaLowSec       Int?
+  etaHighSec      Int?
+  etaFirstHighSec Int?
+  promiseBroken   Boolean               @default(false)
+  claimKeys       String                @default("[]")
+  claimedAt       DateTime?
+  conflict        Boolean               @default(false)
+  reviewClicked   Boolean               @default(false)
+  unclaimedReason String?
+  cancelReason    String?
+  source          String                @default("TABLET")
+  branch          Branch                @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  events          OrderEvent[]
+  channels        Channel[]
+  attempts        NotificationAttempt[]
+  jobs            EscalationJob[]
+  feedback        Feedback?
+  stamps          StampEntry[]
+
+  @@index([branchId, status])
+  @@index([branchId, number])
+  @@index([branchId, createdAt])
+}
+
+model OrderEvent {
+  id       String   @id @default(cuid())
+  orderId  String
+  branchId String
+  type     String
+  actor    String
+  at       DateTime @default(now())
+  meta     String?
+  order    Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@index([branchId, at])
+}
+
+model Channel {
+  id        String   @id @default(cuid())
+  orderId   String
+  kind      String // WEBPUSH | WHATSAPP | SMS
+  address   String // encrypted
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@index([expiresAt])
+}
+
+model NotificationAttempt {
+  id      String   @id @default(cuid())
+  orderId String
+  kind    String // PAGE | WEBPUSH | WHATSAPP | SMS | STAFF
+  step    String
+  at      DateTime @default(now())
+  result  String // SENT | FAILED | SKIPPED
+  error   String?
+  order   Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+}
+
+model EscalationJob {
+  id      String    @id @default(cuid())
+  orderId String
+  step    String // WHATSAPP | SMS | STAFF_ALERT | UNCLAIMED
+  runAt   DateTime
+  doneAt  DateTime?
+  order   Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([doneAt, runAt])
+  @@index([orderId])
+}
+
+model Feedback {
+  id        String   @id @default(cuid())
+  orderId   String   @unique
+  score     Int // 1..3
+  reason    String?
+  note      String?
+  createdAt DateTime @default(now())
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+model LoyaltyCard {
+  id        String       @id @default(cuid())
+  tenantId  String
+  keyHash   String
+  stamps    Float        @default(0)
+  redeemed  Int          @default(0)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  tenant    Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  entries   StampEntry[]
+  codes     RedeemCode[]
+
+  @@unique([tenantId, keyHash])
+}
+
+model StampEntry {
+  id      String      @id @default(cuid())
+  cardId  String
+  orderId String
+  value   Float
+  reason  String // PICKUP | QUIET_HOUR | FAST_PICKUP | PROMISE_BROKEN | REDEEM
+  at      DateTime    @default(now())
+  card    LoyaltyCard @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  order   Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@unique([orderId, reason])
+  @@index([cardId])
+}
+
+model RedeemCode {
+  id        String      @id @default(cuid())
+  cardId    String
+  branchId  String
+  code      String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime    @default(now())
+  card      LoyaltyCard @relation(fields: [cardId], references: [id], onDelete: Cascade)
+
+  @@index([branchId, code])
+}
+
+model IntegrationSetting {
+  id        String   @id @default(cuid())
+  tenantId  String
+  key       String
+  value     String // encrypted
+  updatedAt DateTime @updatedAt
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, key])
+}
+
+model AppConfig {
+  key   String @id
+  value String
+}
