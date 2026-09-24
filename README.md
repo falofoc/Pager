@@ -10,6 +10,9 @@
 | [`docs/01-product-blueprint.md`](docs/01-product-blueprint.md) | الـProduct Blueprint الكامل (38 قسمًا): الرؤية، الرحلات، لغة النداء، اللوحات، الميزات، نموذج العمل، الخارطة، الـMoat، الفكرة الكبرى، وملاحق قبل/بعد والتوسع |
 | [`docs/02-technical-architecture.md`](docs/02-technical-architecture.md) | التمهيد التقني للتطبيق Full-Stack: المكدّس، هيكل المستودع، نموذج البيانات، آلة الحالات، سلّم التصعيد، ETA، الـAPI، اللحظي، الأمن |
 | [`docs/03-mvp-backlog.md`](docs/03-mvp-backlog.md) | خطة 4 أسابيع كبنود قابلة للتنفيذ ومقاييس نجاح الـMVP |
+| [`docs/05-design-system.md`](docs/05-design-system.md) | نظام التصميم: الألوان والخط والشخصية والمكوّنات والحركة والصوت، وما نأخذه من المرجع وما لا نأخذه |
+| [`design/prototype/index.html`](design/prototype/index.html) | نموذج تفاعلي لكل الشاشات: رحلة العميل، هوية المنشأة، لوحة الموظف، لوحة المدير، شاشة الأرقام |
+| [`design/tokens.css`](design/tokens.css) | رموز التصميم الجاهزة للاستخدام في التطبيق |
 | [`docs/04-competitive-positioning.md`](docs/04-competitive-positioning.md) | التموضع مقابل «بيجري»: شروط التساوي، الفروق التي تُغلق الصفقة، الرسائل المقابلة، بطاقة المبيعات، وما يجب التحقق منه |
 
 ## لغة المنتج
